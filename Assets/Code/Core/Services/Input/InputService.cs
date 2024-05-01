@@ -40,7 +40,6 @@ namespace Core.Services.Input
             }
             else
             {
-                Debug.Log("Finger " + finger.Index + " tapped");
                 var interactable = PhysRaycaster(finger);
                 interactable?.InputAction(finger);
             }
@@ -50,7 +49,7 @@ namespace Core.Services.Input
         {
             int mask = 1 << LayerMask.NameToLayer("Default");
             
-            var physHits = Physics2D.RaycastAll(finger.ScreenPosition/*Camera.main.ScreenPointToRay(finger.ScreenPosition)*/, Vector2.zero, int.MaxValue, mask);
+            var physHits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(finger.ScreenPosition), Vector2.zero, int.MaxValue, mask);
 
             IInputInteractable result = null;
 
