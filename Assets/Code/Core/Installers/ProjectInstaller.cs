@@ -1,5 +1,6 @@
 using Core.Factory;
 using Core.SceneLoader;
+using Core.Services.Input;
 using Core.StateMachine;
 using Core.StateMachine.StateMachines;
 using Zenject;
@@ -13,6 +14,7 @@ namespace Core.Installers
             BindProjectStateMachine();
             BindProjectStarterFactory();
             BindSceneLoader();
+            BindInput();
         }
         
         private void BindProjectStateMachine()
@@ -36,6 +38,18 @@ namespace Core.Installers
                 .To<SceneLoader.SceneLoader>()
                 .AsSingle();
         }
-        
+
+        private void BindInput()
+        {
+            Container
+                .InstantiatePrefabResource("LeanTouch");
+
+            Container
+                .Bind<IInputService>()
+                .To<InputService>()
+                .AsSingle()
+                .NonLazy();
+        }
+
     }
 }
