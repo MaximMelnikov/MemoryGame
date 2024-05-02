@@ -40,7 +40,7 @@ public class GameController
         //start timer
         _secondsToLoose = _fieldSettings.timeToFail;
         _timer = Timer.Register(1, () => TimerTick(), isLooped: true);
-        OnTimerTick.Invoke(_fieldSettings.timeToFail);
+        OnTimerTick?.Invoke(_fieldSettings.timeToFail);
     }
 
     public async Task Hint()
@@ -96,13 +96,13 @@ public class GameController
 
     private void Win()
     {
-        OnWin.Invoke();
+        OnWin?.Invoke();
         _timer.Cancel();
     }
 
     private void Loose()
     {
-        OnLoose.Invoke();
+        OnLoose?.Invoke();
         _timer.Cancel();
     }
 

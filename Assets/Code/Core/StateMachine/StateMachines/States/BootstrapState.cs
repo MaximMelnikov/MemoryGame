@@ -6,7 +6,7 @@ namespace Core.StateMachine.StateMachines.States
 {
     public class BootstrapState : IState
     {
-        private const string GameplayLevelName = "Gameplay";
+        private const string MenuLevelName = "Menu";
         private readonly ISceneLoader _sceneLoader;
 
         public BootstrapState(ISceneLoader sceneLoader)
@@ -18,7 +18,7 @@ namespace Core.StateMachine.StateMachines.States
         {
             Debug.Log("Enter BootstrapState");
             //You can show loading screen here and init services
-            _sceneLoader.Load(GameplayLevelName);
+            _sceneLoader.Load(MenuLevelName);
         }
 
         public async Task Exit()
