@@ -18,4 +18,5 @@ MonoBehaviour:
   columnsCount: 4
   cardWidth: 54
   cardHeight: 90
-  cardPrefab: {fileID: 1983783704753460685, guid: 6c45ebafe5090fc4ea9688bffea2141b, type: 3}
+  space: 10
+  cardPrefab: {fileID: 5628884182679161827, guid: 6c45ebafe5090fc4ea9688bffea2141b, type: 3}

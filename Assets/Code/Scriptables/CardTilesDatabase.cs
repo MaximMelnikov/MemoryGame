@@ -12,4 +12,9 @@ public class CardTilesDatabase : ScriptableObject
     {
         return cards[id];
     }
+
+    public int GetCardsCount() 
+    { 
+        return cards.Count-1;
+    }
 }
