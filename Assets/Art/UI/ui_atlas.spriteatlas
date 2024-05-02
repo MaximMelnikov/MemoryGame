@@ -33,6 +33,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 3fd7450f98666e749bbfb363ffb8be93, type: 3}
+    - {fileID: 2800000, guid: 0f232649b854242448d8769b24810549, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -117,6 +118,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 1a35afe8b61dc0c40bd736cdf097ee7b, type: 3}
   - {fileID: 21300000, guid: bb165bf8b920ca54d845ae91a573d78d, type: 3}
   - {fileID: 21300000, guid: 0da0dc290467380468fafb0785d8eb58, type: 3}
+  - {fileID: 21300000, guid: 0f232649b854242448d8769b24810549, type: 3}
   - {fileID: 21300000, guid: 6d210949dbb5739419787488dd32ac38, type: 3}
   - {fileID: 21300000, guid: f4aee559ff4fb48418368d80df5b9c2b, type: 3}
   - {fileID: 21300000, guid: f1ebc86947b5c074dadffc8887940380, type: 3}
@@ -264,6 +266,7 @@ SpriteAtlas:
   - green_cross
   - grey_button09
   - yellow_tick
+  - excited-minions-gif-360x163
   - red_sliderUp
   - grey_tickGrey
   - blue_circle

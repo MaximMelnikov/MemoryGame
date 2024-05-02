@@ -6,11 +6,12 @@ using UnityEngine;
 public class GameController
 {
     public event Action<int> OnTimerTick;
+    public event Action OnWin;
+    public event Action OnLoose;
 
     private FieldSettings _fieldSettings;
     private IFieldCreator _fieldCreator;
     private IInputService _inputService;
-    private AudioService _audioService;
 
     private Card _selectedCard;
     private int _pairsFound;
@@ -21,13 +22,11 @@ public class GameController
     public GameController(
         FieldSettings fieldSettings,
         IFieldCreator fieldCreator,
-        IInputService inputService,
-        AudioService audioService)
+        IInputService inputService)
     {
         _fieldSettings = fieldSettings;
         _fieldCreator = fieldCreator;
         _inputService = inputService;
-        _audioService = audioService;
     }
 
     public async Task Start()
@@ -97,16 +96,14 @@ public class GameController
 
     private void Win()
     {
-        _audioService.PlayWin();
+        OnWin.Invoke();
         _timer.Cancel();
-        Debug.Log("Win");
     }
 
     private void Loose()
     {
-        _audioService.PlayLoose();
+        OnLoose.Invoke();
         _timer.Cancel();
-        Debug.Log("Loose");
     }
 
     private async Task FlipAllCardsAnim()
