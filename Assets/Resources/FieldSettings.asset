@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64946b28c8cc02345b6df32f877b045d, type: 3}
   m_Name: FieldSettings
   m_EditorClassIdentifier: 
-  fieldAspectRatio: 1.33
-  fitScreen: 1
   rowsCount: 4
-  columnsCount: 4
+  columnsCount: 5
   cardWidth: 54
   cardHeight: 90
-  space: 10
+  spacing: 10
   cardPrefab: {fileID: 5628884182679161827, guid: 6c45ebafe5090fc4ea9688bffea2141b, type: 3}
+  showCardsTime: 5

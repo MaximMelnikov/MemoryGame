@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 308382415}
   - component: {fileID: 308382414}
   m_Layer: 5
-  m_Name: Image
+  m_Name: TimerBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 316538764}
   - component: {fileID: 316538763}
   - component: {fileID: 316538762}
+  - component: {fileID: 316538766}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -387,6 +388,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &316538766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316538761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96233dfe8017da44dbe6f86504a01e0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerText: {fileID: 2131295172}
 --- !u!1 &513037926
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,7 +484,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 513037929}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 316538766}
+        m_TargetAssemblyTypeName: HudController, Assembly-CSharp
+        m_MethodName: OnHintButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &513037929
 MonoBehaviour:
   m_ObjectHideFlags: 0

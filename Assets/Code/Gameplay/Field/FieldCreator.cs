@@ -15,6 +15,8 @@ public class FieldCreator : IFieldCreator
     private readonly Transform _cardsContainer;
     private List<Card> cards;
 
+    public List<Card> Cards { get => cards; }
+
     public FieldCreator(
         DiContainer container,
         CardTilesDatabase cardTilesDatabase,
@@ -100,7 +102,7 @@ public class FieldCreator : IFieldCreator
         var random = new System.Random();
 
         //choose N random numbers from range of cards ids. Create list of numbers and random sorting them, than get first N elements
-        var uniquePairsIds = Enumerable.Range(1, _cardTilesDatabase.GetCardsCount() + 1)
+        var uniquePairsIds = Enumerable.Range(1, _cardTilesDatabase.GetCardsCount())
             .OrderBy(t => random.Next())
             .Take(uniquePairsCount)
             .ToArray();

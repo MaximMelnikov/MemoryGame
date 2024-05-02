@@ -13,18 +13,21 @@ namespace Core
         private BootstrapperFactory _bootstrapperFactory;
         private ISceneLoader _sceneLoader;
         private IFieldCreator _fieldCreator;
+        private GameController _gameController;
 
         [Inject]
         private void Construct(
             IStateMachine projectStateMachine, 
             BootstrapperFactory bootstrapperFactory,
             ISceneLoader sceneLoader,
-            IFieldCreator fieldCreator)
+            IFieldCreator fieldCreator,
+            GameController gameController)
         {
             _projectStateMachine = projectStateMachine;
             _bootstrapperFactory = bootstrapperFactory;
             _sceneLoader = sceneLoader;
             _fieldCreator = fieldCreator;
+            _gameController = gameController;
         }
         
         private void Awake()
@@ -39,7 +42,7 @@ namespace Core
         private void Start()
         {
             _projectStateMachine.RegisterState<GameplayPreloadState>(new GameplayPreloadState(_projectStateMachine, _sceneLoader));
-            _projectStateMachine.RegisterState<GameplayState>(new GameplayState(_projectStateMachine, _sceneLoader, _fieldCreator));
+            _projectStateMachine.RegisterState<GameplayState>(new GameplayState(_projectStateMachine, _sceneLoader, _fieldCreator, _gameController));
             _projectStateMachine.Enter<GameplayPreloadState>();
         }
     }

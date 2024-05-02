@@ -18,4 +18,8 @@ public class FieldSettings : ScriptableObject
     public int spacing = 10;
 
     public Card cardPrefab;
+
+    [Header("Game settings")]
+    public int showCardsTime = 5; //stage on game start when all cards are open
+    public int timeToFail = 60;
 }
