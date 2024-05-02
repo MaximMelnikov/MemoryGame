@@ -15,6 +15,7 @@ namespace Core.Installers
             BindProjectStarterFactory();
             BindSceneLoader();
             BindInput();
+            BindAudioService();
         }
         
         private void BindProjectStateMachine()
@@ -51,5 +52,14 @@ namespace Core.Installers
                 .NonLazy();
         }
 
+        private void BindAudioService()
+        {
+            var audioService = Container.InstantiatePrefabResource("AudioService");
+
+            Container
+                .Bind<AudioService>()
+                .FromInstance(audioService.GetComponent<AudioService>())
+                .AsSingle();
+        }
     }
 }

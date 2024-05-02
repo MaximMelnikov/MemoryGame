@@ -1,7 +1,5 @@
 using Core.Services.Input;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -12,6 +10,7 @@ public class GameController
     private FieldSettings _fieldSettings;
     private IFieldCreator _fieldCreator;
     private IInputService _inputService;
+    private AudioService _audioService;
 
     private Card _selectedCard;
     private int _pairsFound;
@@ -22,11 +21,13 @@ public class GameController
     public GameController(
         FieldSettings fieldSettings,
         IFieldCreator fieldCreator,
-        IInputService inputService)
+        IInputService inputService,
+        AudioService audioService)
     {
         _fieldSettings = fieldSettings;
         _fieldCreator = fieldCreator;
         _inputService = inputService;
+        _audioService = audioService;
     }
 
     public async Task Start()
@@ -96,12 +97,14 @@ public class GameController
 
     private void Win()
     {
+        _audioService.PlayWin();
         _timer.Cancel();
         Debug.Log("Win");
     }
 
     private void Loose()
     {
+        _audioService.PlayLoose();
         _timer.Cancel();
         Debug.Log("Loose");
     }

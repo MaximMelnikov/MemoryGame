@@ -19,3 +19,4 @@ MonoBehaviour:
   spacing: 10
   cardPrefab: {fileID: 5628884182679161827, guid: 6c45ebafe5090fc4ea9688bffea2141b, type: 3}
   showCardsTime: 5
+  timeToFail: 60

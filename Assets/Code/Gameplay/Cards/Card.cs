@@ -9,6 +9,7 @@ public class Card : MonoBehaviour, IInputInteractable
 {
     private CardTilesDatabase _cardTilesDatabase;
     private GameController _gameController;
+    private AudioService _audioService;
     [SerializeField]
     private float _flipTime = .2f;
     [SerializeField]
@@ -24,11 +25,13 @@ public class Card : MonoBehaviour, IInputInteractable
     [Inject]
     private void Construct(
         CardTilesDatabase cardTilesDatabase,
-        GameController gameController
+        GameController gameController,
+        AudioService audioService
         )
     {
         _cardTilesDatabase = cardTilesDatabase;
         _gameController = gameController;
+        _audioService = audioService;
     }
 
     public void Init(int id)
@@ -79,17 +82,19 @@ public class Card : MonoBehaviour, IInputInteractable
 
     private async Task OnSelected()
     {
+        _audioService.PlayClick();
         await FlipCard().AsyncWaitForCompletion();
         _gameController.OnCardSelected(this);
     }
 
     public async Task PairFound()
     {
-
+        _audioService.PlaySuccess();
     }
 
     public Sequence FailPair()
     {
+        _audioService.PlayFail();
         failSequence = DOTween.Sequence();
         failSequence
             .Append(_spriteRenderer.DOColor(Color.red, 0.1f).SetLoops(2, LoopType.Yoyo))
