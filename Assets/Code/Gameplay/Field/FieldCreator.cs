@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -13,42 +11,46 @@ public class FieldCreator : IFieldCreator
     private readonly DiContainer _container;
     private readonly CardTilesDatabase _cardTilesDatabase;
     private readonly FieldSettings _fieldSettings;
+    private readonly FieldSizeController _fieldSizeController;
     private readonly Transform _cardsContainer;
     private List<Card> cards;
 
     public FieldCreator(
         DiContainer container,
         CardTilesDatabase cardTilesDatabase,
-        FieldSettings fieldSettings)
+        FieldSettings fieldSettings,
+        FieldSizeController fieldSizeController)
     {
         _container = container;
         _cardTilesDatabase = cardTilesDatabase;
         _fieldSettings = fieldSettings;
-
+        _fieldSizeController = fieldSizeController;
         _cardsContainer = new GameObject("CardsContainer").transform;
     }
 
     public void CreateField()
     {
         int cardsCount = _fieldSettings.columnsCount * _fieldSettings.rowsCount;
-        if (cardsCount / 2 % 1 != 0)
+        if ((float)cardsCount / 2 % 1 != 0)
         {
-            throw new System.Exception("Please use field size that divides by 2");
+            Debug.LogError("Please use field size that divides by 2");
         }
         int totalPairsCount = cardsCount / 2;
         int uniquePairsCount = Mathf.FloorToInt(totalPairsCount * Difficulty);
         
         if (uniquePairsCount > _cardTilesDatabase.GetCardsCount())
         {
-            throw new System.Exception("Card tiles count lesser then unique pairs needed");
+            Debug.LogError("Card tiles count lesser then unique pairs needed");
         }
-
+        _fieldSizeController.Resize();
         SpawnCards(cardsCount);
         ShuffleField();
     }
 
     public void ShuffleField()
     {
+        _fieldSizeController.Resize();
+
         int cardsCount = _fieldSettings.columnsCount * _fieldSettings.rowsCount;
         int totalPairsCount = cardsCount / 2;
         int uniquePairsCount = Mathf.FloorToInt(totalPairsCount * Difficulty);
@@ -73,11 +75,24 @@ public class FieldCreator : IFieldCreator
         {
             for (int y = 0; y < _fieldSettings.rowsCount; y++)
             {
-                var card = GameObject.Instantiate(_fieldSettings.cardPrefab, new Vector3(x, y, 0), Quaternion.identity, _cardsContainer);
+                var card = GameObject.Instantiate(_fieldSettings.cardPrefab, _cardsContainer);
+                card.transform.localPosition = CalcCardPosition(x, y);
                 _container.InjectGameObject(card.gameObject);
                 cards.Add(card);
             }
         }
+    }
+
+    private Vector3 CalcCardPosition(int x, int y)
+    {
+        float cardWorldWidth = _fieldSettings.cardWidth / (float)FieldSettings.PPU;
+        float cardWorldHeight = _fieldSettings.cardHeight / (float)FieldSettings.PPU;
+        float spacingWorld = _fieldSettings.spacing / (float)FieldSettings.PPU;
+
+        float xPos = x * cardWorldWidth + x * spacingWorld;
+        float yPos = y * cardWorldHeight + y * spacingWorld;
+
+        return new Vector3(xPos, yPos, 0);
     }
 
     private int[] CreateShuffledCardsList(int totalPairsCount, int uniquePairsCount)

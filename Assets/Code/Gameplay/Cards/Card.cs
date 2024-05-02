@@ -46,7 +46,6 @@ public class Card : MonoBehaviour, IInputInteractable
 
     public void InputAction(LeanFinger finger)
     {
-        Debug.Log("TowerSpot tapped");
         FlipCard();
     }
 }

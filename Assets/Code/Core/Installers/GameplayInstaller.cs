@@ -10,6 +10,7 @@ namespace Core.Installers
             BindCardTilesDatabase();
             BindFieldSettings();
             BindFieldCreator();
+            BindFieldSizeController();
         }
 
         private void BindFieldSettings()
@@ -31,6 +32,13 @@ namespace Core.Installers
             Container
                 .Bind<IFieldCreator>()
                 .To<FieldCreator>()
+                .AsSingle();
+        }
+
+        private void BindFieldSizeController()
+        {
+            Container
+                .Bind<FieldSizeController>()
                 .AsSingle();
         }
     }
