@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 public class OptionsController : MonoBehaviour
@@ -12,17 +13,33 @@ public class OptionsController : MonoBehaviour
     private CanvasGroup _window;
     [SerializeField]
     private CanvasGroup _shadow;
+
+    [SerializeField]
+    private Toggle _soundToggle;
+    [SerializeField]
+    private Slider _difficultySlider;
+
     private IInputService _inputService;
+    private OptionsService _optionsService;
 
     [Inject]
-    private void Construct(IInputService inputService)
+    private void Construct(
+        IInputService inputService,
+        OptionsService optionsService)
     {
         _inputService = inputService;
+        _optionsService = optionsService;
+
+        SetOptionsValues();
+
+        _soundToggle.onValueChanged.AddListener(OnSoundToggleValueChanged);
+        _difficultySlider.onValueChanged.AddListener(OnDiffcultySliderValueChanged);
     }
 
     public void OnSaveButton()
     {
         Hide();
+        _optionsService.Save();
     }
 
     public async Task Show()
@@ -55,5 +72,21 @@ public class OptionsController : MonoBehaviour
         _window.interactable = false;
         rectTransform.DOScale(1, 0);
         _inputService.EnableInput();
+    }
+
+    private void SetOptionsValues()
+    {
+        _soundToggle.SetIsOnWithoutNotify(_optionsService.sound.Value);
+        _difficultySlider.SetValueWithoutNotify(_optionsService.difficulty.Value);
+    }
+
+    private void OnSoundToggleValueChanged(bool value)
+    {
+        _optionsService.sound.Value = value;
+    }
+
+    private void OnDiffcultySliderValueChanged(float value)
+    {
+        _optionsService.difficulty.Value = (int)value;
     }
 }

@@ -16,6 +16,7 @@ namespace Core.Installers
             BindSceneLoader();
             BindInput();
             BindAudioService();
+            BindOptionsService();
         }
         
         private void BindProjectStateMachine()
@@ -59,6 +60,20 @@ namespace Core.Installers
             Container
                 .Bind<AudioService>()
                 .FromInstance(audioService.GetComponent<AudioService>())
+                .AsSingle();
+        }
+        
+        private void BindOptionsService()
+        {
+            Container
+                .Bind<ISaveMethod>()
+                .To<JsonSaveMethod>()
+                //.To<PlayerPrefsSaveMethod>()
+                //.To<BinaryFileSaveMethod>()
+                .AsSingle();
+
+            Container
+                .Bind<OptionsService>()
                 .AsSingle();
         }
     }

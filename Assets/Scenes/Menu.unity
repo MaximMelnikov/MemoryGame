@@ -3178,6 +3178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _window: {fileID: 662251001}
   _shadow: {fileID: 730344677}
+  _soundToggle: {fileID: 1575806326}
+  _difficultySlider: {fileID: 947855720}
 --- !u!1 &1874887558
 GameObject:
   m_ObjectHideFlags: 0
