@@ -15,8 +15,8 @@ namespace Core.Installers
             BindProjectStarterFactory();
             BindSceneLoader();
             BindInput();
-            BindAudioService();
             BindOptionsService();
+            BindAudioService();
         }
         
         private void BindProjectStateMachine()

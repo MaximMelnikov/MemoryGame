@@ -1,8 +1,11 @@
 using UnityEngine;
+using Zenject;
 
 //have no time for really good audio service so made it stupidly simple)
 public class AudioService : MonoBehaviour
 {
+    private OptionsService _optionsService;
+
     [SerializeField]
     private AudioClip _click;
     [SerializeField]
@@ -13,6 +16,12 @@ public class AudioService : MonoBehaviour
     private AudioClip _win;
     [SerializeField]
     private AudioClip _loose;
+
+    [Inject]
+    private void Construct(OptionsService optionsService)
+    {
+        _optionsService = optionsService;
+    }
 
     private void Awake()
     {
@@ -46,6 +55,10 @@ public class AudioService : MonoBehaviour
 
     private void Play(AudioClip clip)
     {
+        if (!_optionsService.sound.Value)
+        {
+            return;
+        }
         var audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = clip;
         audioSource.PlayOneShot(audioSource.clip);
