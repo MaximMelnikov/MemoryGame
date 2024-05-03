@@ -35,6 +35,10 @@ public class IntOptionEntity : IOptionEntity<int>, ISavableData
 
     public void Deserialize(string value)
     {
+        if (string.IsNullOrEmpty(value))
+        {
+            return;
+        }
         Value = Convert.ToInt32(value);
     }
 }

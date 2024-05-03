@@ -12,6 +12,7 @@ public class FieldCreator : IFieldCreator
     private readonly CardTilesDatabase _cardTilesDatabase;
     private readonly FieldSettings _fieldSettings;
     private readonly FieldSizeController _fieldSizeController;
+    private OptionsService _optionsService;
     private readonly Transform _cardsContainer;
     private List<Card> cards;
 
@@ -21,12 +22,14 @@ public class FieldCreator : IFieldCreator
         DiContainer container,
         CardTilesDatabase cardTilesDatabase,
         FieldSettings fieldSettings,
-        FieldSizeController fieldSizeController)
+        FieldSizeController fieldSizeController,
+        OptionsService optionsService)
     {
         _container = container;
         _cardTilesDatabase = cardTilesDatabase;
         _fieldSettings = fieldSettings;
         _fieldSizeController = fieldSizeController;
+        _optionsService = optionsService;
         _cardsContainer = new GameObject("CardsContainer").transform;
     }
 
@@ -38,7 +41,8 @@ public class FieldCreator : IFieldCreator
             Debug.LogError("Please use field size that divides by 2");
         }
         int totalPairsCount = cardsCount / 2;
-        int uniquePairsCount = Mathf.FloorToInt(totalPairsCount * Difficulty);
+        var difficulty = (.6f + (float)_optionsService.difficulty.Value * .2f);
+        int uniquePairsCount = Mathf.FloorToInt(totalPairsCount * difficulty);
         
         if (uniquePairsCount > _cardTilesDatabase.GetCardsCount())
         {
@@ -55,7 +59,8 @@ public class FieldCreator : IFieldCreator
 
         int cardsCount = _fieldSettings.columnsCount * _fieldSettings.rowsCount;
         int totalPairsCount = cardsCount / 2;
-        int uniquePairsCount = Mathf.FloorToInt(totalPairsCount * Difficulty);
+        var difficulty = (.6f + (float)_optionsService.difficulty.Value * .2f);
+        int uniquePairsCount = Mathf.FloorToInt(totalPairsCount * difficulty);
 
         if (this.cards.Count == 0)
         {

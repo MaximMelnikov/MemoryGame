@@ -23,6 +23,13 @@ public class BinaryFileSaveMethod : ISaveMethod
 
         try
         {
+            if (!File.Exists(path))
+            {
+                Debug.Log($"File doesn't exist: {path}");
+                File.Create(path);
+                return;
+            }
+
             using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
             {
                 foreach (var item in list)

@@ -27,7 +27,7 @@ public class BoolOptionEntity : IOptionEntity<bool>, ISavableData
 
     public BoolOptionEntity(string name)
     {
-
+        Name = name;
     }
 
     public (string, string) Serialize()
@@ -37,6 +37,10 @@ public class BoolOptionEntity : IOptionEntity<bool>, ISavableData
 
     public void Deserialize(string value)
     {
+        if (string.IsNullOrEmpty(value))
+        {
+            return;
+        }
         Value = Convert.ToBoolean(value);
     }
 }

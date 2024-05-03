@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class JsonSaveMethod : ISaveMethod
 {
@@ -32,15 +32,19 @@ public class JsonSaveMethod : ISaveMethod
             if (!File.Exists(path))
             {
                 Debug.Log($"File doesn't exist: {path}");
+                File.Create(path);
                 return;
             }
 
             string json = File.ReadAllText(path);
 
-            var dictionary = JsonUtility.FromJson<Dictionary<string, string>>(json);
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             foreach (var item in list)
             {
-                item.Deserialize(dictionary[item.Name]);
+                if (dictionary != null && dictionary.ContainsKey(item.Name))
+                {
+                    item.Deserialize(dictionary[item.Name]);
+                }
             }
         }
         catch (Exception e)
@@ -55,7 +59,7 @@ public class JsonSaveMethod : ISaveMethod
 
         try
         {
-            var jsonString = JsonUtility.ToJson(options, true);
+            var jsonString = JsonConvert.SerializeObject(options);
 
             if (!File.Exists(path))
             {

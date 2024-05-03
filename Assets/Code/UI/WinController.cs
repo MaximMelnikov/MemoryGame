@@ -10,6 +10,9 @@ public class WinController : MonoBehaviour
     private CanvasGroup _window;
     [SerializeField]
     private CanvasGroup _shadow;
+    [SerializeField]
+    private ParticleSystem _firework;
+
     private AudioService _audioService;
     private IInputService _inputService;
     private GameController _gameController;
@@ -37,6 +40,8 @@ public class WinController : MonoBehaviour
         var rectTransform = _window.GetComponent<RectTransform>();
 
         //anim
+        _firework.Play();
+
         _shadow.DOFade(1, .2f);
         _shadow.blocksRaycasts = true;
 

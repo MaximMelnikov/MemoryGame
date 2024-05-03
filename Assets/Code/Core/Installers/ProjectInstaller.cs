@@ -67,8 +67,8 @@ namespace Core.Installers
         {
             Container
                 .Bind<ISaveMethod>()
-                .To<JsonSaveMethod>()
-                //.To<PlayerPrefsSaveMethod>()
+                //.To<JsonSaveMethod>()
+                .To<PlayerPrefsSaveMethod>()
                 //.To<BinaryFileSaveMethod>()
                 .AsSingle();
 
