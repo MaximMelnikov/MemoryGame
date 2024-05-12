@@ -11,12 +11,11 @@ public class Card : MonoBehaviour, IInputInteractable
     private GameController _gameController;
     private AudioService _audioService;
     [SerializeField]
-    private float _flipTime = .2f;
-    [SerializeField]
     private SpriteRenderer _spriteRenderer;
 
-    private Sequence flipSequence;
-    private Sequence failSequence;
+    private const float _flipTime = .2f;
+    private Sequence _flipSequence;
+    private Sequence _failSequence;
 
     public int Id { get; private set; }
     public bool IsFaced { get; private set; }
@@ -47,8 +46,8 @@ public class Card : MonoBehaviour, IInputInteractable
 
     public Sequence FlipCard()
     {
-        flipSequence = DOTween.Sequence();
-        flipSequence
+        _flipSequence = DOTween.Sequence();
+        _flipSequence
             .AppendCallback(() => IsInputEnabled = false)
             .Append(_spriteRenderer.transform.DORotate(new Vector3(0, 90, 0), _flipTime))
             .AppendCallback(() => SetSprite(IsFaced ? FieldSettings.backCardId : Id))
@@ -58,13 +57,13 @@ public class Card : MonoBehaviour, IInputInteractable
                 IsFaced = !IsFaced;
                 IsInputEnabled = true;
             });
-        return flipSequence;
+        return _flipSequence;
     }
 
     public void Reset()
     {
-        flipSequence.Complete();
-        failSequence.Complete();
+        _flipSequence.Complete();
+        _failSequence.Complete();
         if (IsFaced)
         {
             FlipCard();
@@ -95,11 +94,11 @@ public class Card : MonoBehaviour, IInputInteractable
     public Sequence FailPair()
     {
         _audioService.PlayFail();
-        failSequence = DOTween.Sequence();
-        failSequence
+        _failSequence = DOTween.Sequence();
+        _failSequence
             .Append(_spriteRenderer.DOColor(Color.red, 0.1f).SetLoops(2, LoopType.Yoyo))
             .AppendInterval(1)
             .Append(FlipCard());
-        return failSequence;
+        return _failSequence;
     }
 }

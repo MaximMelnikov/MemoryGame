@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class FieldSizeController
 {
@@ -17,13 +15,14 @@ public class FieldSizeController
     {
         if (_cardsContainer == null)
         {
-            _cardsContainer = GameObject.Find("CardsContainer").transform; //i know, find is bad. I think its ok for prototyping
+            _cardsContainer = GameObject.Find("CardsContainer").transform; //i know, finding is bad. But creating one more dependence for one field only...
         }
         if (_gameFieldBoundingBox == null)
         {
             _gameFieldBoundingBox = GameObject.Find("GameFieldBoundingBox").GetComponent<RectTransform>();
         }
-        
+
+        //calc _cardsContainer(Transform) scale to fit into _gameFieldBoundingBox(RectTransform)
         Rect boundingBoxWorldRect = _gameFieldBoundingBox.GetWorldRect();
 
         float cardWorldWidth = _fieldSettings.cardWidth / (float)FieldSettings.PPU;
@@ -36,6 +35,7 @@ public class FieldSizeController
         float boundingBoxMin = Mathf.Min(boundingBoxWorldRect.width, boundingBoxWorldRect.height);
         float cardsContainerMax = Mathf.Max(cardsContainerWorldWidth, cardsContainerWorldHeight);
 
+        //scaling
         var scale = boundingBoxMin / cardsContainerMax;
         _cardsContainer.localScale = new Vector3(scale, scale, scale);
 

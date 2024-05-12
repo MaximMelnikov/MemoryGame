@@ -1,22 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Zenject;
 
 public class FieldCreator : IFieldCreator
 {
-    private const float difficulty = 1f; //0-1 value, 1-all pairs are unique
-    private float Difficulty { get { return difficulty; } }
+    private const float _difficultyMinValue = .6f;
+    private const float _difficultyStep = .2f;
 
     private readonly DiContainer _container;
     private readonly CardTilesDatabase _cardTilesDatabase;
     private readonly FieldSettings _fieldSettings;
     private readonly FieldSizeController _fieldSizeController;
-    private OptionsService _optionsService;
+    private readonly OptionsService _optionsService;
     private readonly Transform _cardsContainer;
-    private List<Card> cards;
-
-    public List<Card> Cards { get => cards; }
+    public List<Card> Cards { get; private set; }
 
     public FieldCreator(
         DiContainer container,
@@ -38,16 +37,9 @@ public class FieldCreator : IFieldCreator
         int cardsCount = _fieldSettings.columnsCount * _fieldSettings.rowsCount;
         if ((float)cardsCount / 2 % 1 != 0)
         {
-            Debug.LogError("Please use field size that divides by 2");
+            throw new InvalidOperationException("Please use field size that divides by 2");
         }
-        int totalPairsCount = cardsCount / 2;
-        var difficulty = (.6f + (float)_optionsService.difficulty.Value * .2f);
-        int uniquePairsCount = Mathf.FloorToInt(totalPairsCount * difficulty);
-        
-        if (uniquePairsCount > _cardTilesDatabase.GetCardsCount())
-        {
-            Debug.LogError("Card tiles count lesser then unique pairs needed");
-        }
+
         _fieldSizeController.Resize();
         SpawnCards(cardsCount);
         ShuffleField();
@@ -59,10 +51,17 @@ public class FieldCreator : IFieldCreator
 
         int cardsCount = _fieldSettings.columnsCount * _fieldSettings.rowsCount;
         int totalPairsCount = cardsCount / 2;
-        var difficulty = (.6f + (float)_optionsService.difficulty.Value * .2f);
+
+        //Difficulty. 1 - all pairs unique; 0.5 - any pair of cards have one more the same pair
+        var difficulty = (_difficultyMinValue + (float)_optionsService.difficulty.Value * _difficultyStep);
         int uniquePairsCount = Mathf.FloorToInt(totalPairsCount * difficulty);
 
-        if (this.cards.Count == 0)
+        if (uniquePairsCount > _cardTilesDatabase.GetCardsCount())
+        {
+            throw new InvalidOperationException("Card tiles count lesser then unique pairs needed");
+        }
+
+        if (Cards.Count == 0)
         {
             SpawnCards(cardsCount);
         }
@@ -71,13 +70,13 @@ public class FieldCreator : IFieldCreator
 
         for (int i = 0; i < cardsIds.Length; i++)
         {
-            cards[i].Init(cardsIds[i]);
+            Cards[i].Init(cardsIds[i]);
         }
     }
 
     private void SpawnCards(int cardsCount)
     {
-        cards = new List<Card>(cardsCount);
+        Cards = new List<Card>(cardsCount);
         for (int x = 0; x < _fieldSettings.columnsCount; x++)
         {
             for (int y = 0; y < _fieldSettings.rowsCount; y++)
@@ -85,7 +84,7 @@ public class FieldCreator : IFieldCreator
                 var card = GameObject.Instantiate(_fieldSettings.cardPrefab, _cardsContainer);
                 card.transform.localPosition = CalcCardPosition(x, y);
                 _container.InjectGameObject(card.gameObject);
-                cards.Add(card);
+                Cards.Add(card);
             }
         }
     }

@@ -115,10 +115,13 @@ public class GameController
         }
     }
 
+    /// <summary>
+    /// Tick once per second
+    /// </summary>
     private void TimerTick()
     {
         _secondsToLoose--;
-        OnTimerTick.Invoke(_secondsToLoose);
+        OnTimerTick?.Invoke(_secondsToLoose);
 
         if (_secondsToLoose <= 0)
         {

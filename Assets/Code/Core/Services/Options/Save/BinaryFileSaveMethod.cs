@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-//not safe save method, better convert List<ISavableData> to binary data and save it. But i think task was to write all options values separately... maybe...
-
 public class BinaryFileSaveMethod : ISaveMethod
 {
     public void Load(List<ISavableData> list)
