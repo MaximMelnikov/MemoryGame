@@ -26,7 +26,10 @@ public class WinController : MonoBehaviour
         _audioService = audioService;
         _inputService = inputService;
         _gameController = gameController;
+    }
 
+    private void Start()
+    {
         _gameController.OnWin += OnWin;
     }
 

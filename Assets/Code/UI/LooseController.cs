@@ -23,7 +23,10 @@ public class LooseController : MonoBehaviour
         _audioService = audioService;
         _inputService = inputService;
         _gameController = gameController;
+    }
 
+    private void Start()
+    {
         _gameController.OnLoose += OnLoose;
     }
 

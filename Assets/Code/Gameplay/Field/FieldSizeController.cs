@@ -9,6 +9,7 @@ public class FieldSizeController
     public FieldSizeController(FieldSettings fieldSettings)
     {
         _fieldSettings = fieldSettings;
+        CanvasSafeAreaHelper.OnResolutionOrOrientationChanged += Resize;
     }
 
     public void Resize()
@@ -44,5 +45,10 @@ public class FieldSizeController
             boundingBoxWorldRect.center.x - cardsContainerWorldWidth * scale / 2 + cardWorldWidth * scale / 2,
             boundingBoxWorldRect.center.y - cardsContainerWorldHeight * scale / 2 + cardWorldHeight * scale / 2,
             0);
+    }
+
+    ~FieldSizeController()
+    {
+        CanvasSafeAreaHelper.OnResolutionOrOrientationChanged -= Resize;
     }
 }

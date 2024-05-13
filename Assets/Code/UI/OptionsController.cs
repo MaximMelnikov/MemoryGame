@@ -29,7 +29,10 @@ public class OptionsController : MonoBehaviour
     {
         _inputService = inputService;
         _optionsService = optionsService;
+    }
 
+    private void Start()
+    {
         SetOptionsValues();
 
         _soundToggle.onValueChanged.AddListener(OnSoundToggleValueChanged);

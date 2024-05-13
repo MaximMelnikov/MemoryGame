@@ -7,7 +7,7 @@ namespace Core.StateMachine
     {
         public Action<IState> OnStateChange { get; set; }
         public IState CurrentState { get; }
-        public void RegisterState<TState>(IState state) where TState : IState;
+        public void RegisterState<TState>(IState state, bool force = false) where TState : IState;
         public Task Enter<TState>(bool force = false) where TState : class, IState;
     }
 }

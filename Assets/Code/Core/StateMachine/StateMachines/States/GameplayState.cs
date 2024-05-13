@@ -27,7 +27,7 @@ namespace Core.StateMachine.StateMachines.States
         {
             Debug.Log("Enter GameplayState");
             _fieldCreator.CreateField();
-            _gameController.Start();
+            _gameController.Play();
         }
 
         public async Task Exit()

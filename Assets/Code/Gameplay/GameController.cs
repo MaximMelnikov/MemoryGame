@@ -24,12 +24,13 @@ public class GameController
         IFieldCreator fieldCreator,
         IInputService inputService)
     {
+        Debug.Log("GameController" + this.GetHashCode());
         _fieldSettings = fieldSettings;
         _fieldCreator = fieldCreator;
         _inputService = inputService;
     }
 
-    public async Task Start()
+    public async Task Play()
     {
         _inputService.DisableInput();
         await FlipAllCardsAnim();
@@ -41,6 +42,7 @@ public class GameController
         _secondsToLoose = _fieldSettings.timeToFail;
         _timer = Timer.Register(1, () => TimerTick(), isLooped: true);
         OnTimerTick?.Invoke(_fieldSettings.timeToFail);
+        Debug.Log(this.GetHashCode());
     }
 
     public async Task Hint()
@@ -65,7 +67,7 @@ public class GameController
         //shuffle cards
         _fieldCreator.ShuffleField();
         await Task.Delay(1000);
-        Start();
+        Play();
     }
 
     public void OnCardSelected(Card card)

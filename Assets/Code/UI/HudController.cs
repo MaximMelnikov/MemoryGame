@@ -16,8 +16,14 @@ public class HudController : MonoBehaviour
         GameController gameController,
         ISceneLoader sceneLoader)
     {
+        Debug.Log("Construct" + this.GetHashCode());
         _gameController = gameController;
         _sceneLoader = sceneLoader;
+    }
+
+    private void Start()
+    {
+        Debug.Log(_gameController.GetHashCode());
         _gameController.OnTimerTick += OnTimerValueChange;
         OnTimerValueChange(60);
     }

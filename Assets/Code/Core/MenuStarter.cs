@@ -3,8 +3,6 @@ using Core.Factory;
 using Core.SceneLoader;
 using Core.StateMachine;
 using Core.StateMachine.StateMachines.States;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 

@@ -10,10 +10,14 @@ namespace Core.StateMachine
         public IState CurrentState { get; private set; }
         private readonly Dictionary<Type, IState> _registeredStates = new Dictionary<Type, IState>();
 
-        public void RegisterState<TState>(IState state) where TState : IState
+        public void RegisterState<TState>(IState state, bool force = false) where TState : IState
         {
             if (_registeredStates.ContainsKey(typeof(TState)))
             {
+                if (force)
+                {
+                    _registeredStates[typeof(TState)] = state;
+                }
                 return;
             }
             _registeredStates.Add(typeof(TState), state);

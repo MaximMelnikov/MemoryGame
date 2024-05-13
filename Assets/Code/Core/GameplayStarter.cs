@@ -42,7 +42,8 @@ namespace Core
         private void Start()
         {
             _projectStateMachine.RegisterState<GameplayPreloadState>(new GameplayPreloadState(_projectStateMachine, _sceneLoader));
-            _projectStateMachine.RegisterState<GameplayState>(new GameplayState(_projectStateMachine, _sceneLoader, _fieldCreator, _gameController));
+            _projectStateMachine.RegisterState<GameplayState>(new GameplayState(_projectStateMachine, _sceneLoader, _fieldCreator, _gameController), true);
+
             _projectStateMachine.Enter<GameplayPreloadState>();
         }
     }
