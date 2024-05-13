@@ -1,6 +1,7 @@
 ﻿using Core.SceneLoader;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Core.StateMachine.StateMachines.States
 {
@@ -8,6 +9,7 @@ namespace Core.StateMachine.StateMachines.States
     {
         private const string MenuLevelName = "Menu";
         private readonly ISceneLoader _sceneLoader;
+        private readonly IStateMachine _projectStateMachine;
 
         public BootstrapState(ISceneLoader sceneLoader)
         {
@@ -18,7 +20,11 @@ namespace Core.StateMachine.StateMachines.States
         {
             Debug.Log("Enter BootstrapState");
             //You can show loading screen here and init services
-            _sceneLoader.Load(MenuLevelName);
+            
+            if (SceneManager.GetActiveScene().name == "Start")
+            {
+                _sceneLoader.Load(MenuLevelName);
+            }
         }
 
         public async Task Exit()

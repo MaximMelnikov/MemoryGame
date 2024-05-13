@@ -50,6 +50,8 @@ public class GameController
             return;
         }
 
+        _inputService.DisableInput();
+
         //reset
         foreach (var item in _fieldCreator.Cards)
         {

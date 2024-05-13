@@ -14,7 +14,7 @@ public class FieldCreator : IFieldCreator
     private readonly FieldSettings _fieldSettings;
     private readonly FieldSizeController _fieldSizeController;
     private readonly OptionsService _optionsService;
-    private readonly Transform _cardsContainer;
+    private Transform _cardsContainer;
     public List<Card> Cards { get; private set; }
 
     public FieldCreator(
@@ -29,11 +29,15 @@ public class FieldCreator : IFieldCreator
         _fieldSettings = fieldSettings;
         _fieldSizeController = fieldSizeController;
         _optionsService = optionsService;
-        _cardsContainer = new GameObject("CardsContainer").transform;
     }
 
     public void CreateField()
     {
+        if (_cardsContainer == null)
+        {
+            _cardsContainer = new GameObject("CardsContainer").transform;
+        }
+        
         int cardsCount = _fieldSettings.columnsCount * _fieldSettings.rowsCount;
         if ((float)cardsCount / 2 % 1 != 0)
         {
@@ -70,7 +74,8 @@ public class FieldCreator : IFieldCreator
 
         for (int i = 0; i < cardsIds.Length; i++)
         {
-            Cards[i].Init(cardsIds[i]);
+            var cardId = cardsIds[i];
+            Cards[i].Init(cardId, _cardTilesDatabase.GetSprite(cardId), _cardTilesDatabase.GetSprite(0));
         }
     }
 

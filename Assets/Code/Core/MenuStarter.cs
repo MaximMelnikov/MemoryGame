@@ -36,7 +36,7 @@ public class MenuStarter : MonoBehaviour
 
     private void Start()
     {
-        _projectStateMachine.RegisterState<MenuState>(new MenuState(_projectStateMachine, _sceneLoader));
+        _projectStateMachine.RegisterState<MenuState>(new MenuState(_sceneLoader));
         _projectStateMachine.Enter<MenuState>();
     }
 }

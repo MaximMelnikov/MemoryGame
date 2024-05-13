@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core.SceneLoader;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -10,11 +9,15 @@ public class HudController : MonoBehaviour
     private TextMeshProUGUI timerText;
 
     private GameController _gameController;
+    private ISceneLoader _sceneLoader;
 
     [Inject]
-    private void Construct(GameController gameController)
+    private void Construct(
+        GameController gameController,
+        ISceneLoader sceneLoader)
     {
         _gameController = gameController;
+        _sceneLoader = sceneLoader;
         _gameController.OnTimerTick += OnTimerValueChange;
         OnTimerValueChange(60);
     }
@@ -27,6 +30,11 @@ public class HudController : MonoBehaviour
     public void OnHintButtonClick()
     {
         _gameController.Hint();
+    }
+
+    public void OnMenuButtonClick()
+    {
+        _sceneLoader.Load("Menu");
     }
 
     private void OnDestroy()

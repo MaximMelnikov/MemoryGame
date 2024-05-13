@@ -12,6 +12,10 @@ namespace Core.StateMachine
 
         public void RegisterState<TState>(IState state) where TState : IState
         {
+            if (_registeredStates.ContainsKey(typeof(TState)))
+            {
+                return;
+            }
             _registeredStates.Add(typeof(TState), state);
         }
 

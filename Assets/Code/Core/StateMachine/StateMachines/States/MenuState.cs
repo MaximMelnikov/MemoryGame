@@ -7,19 +7,17 @@ namespace Core.StateMachine.StateMachines.States
 {
     public class MenuState : IState
     {
-        private readonly IStateMachine _projectStateMachine;
+        private const string MenuLevelName = "Menu";
         private readonly ISceneLoader _sceneLoader;
 
-        public MenuState(
-            IStateMachine projectStateMachine,
-            ISceneLoader sceneLoader)
+        public MenuState(ISceneLoader sceneLoader)
         {
-            _projectStateMachine = projectStateMachine;
             _sceneLoader = sceneLoader;
         }
 
         public async Task Enter()
         {
+            _sceneLoader.Load(MenuLevelName);
             Debug.Log("Enter MenuState");
         }
 

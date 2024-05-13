@@ -18,14 +18,16 @@ namespace Core.Installers
         {
             Container
                 .Bind<CardTilesDatabase>()
-                .FromResources("CardTilesDatabase");
+                .FromResources("CardTilesDatabase")
+                .AsSingle();
         }
 
         private void BindCardTilesDatabase()
         {
             Container
                 .Bind<FieldSettings>()
-                .FromResources("FieldSettings");
+                .FromResources("FieldSettings")
+                .AsSingle();
         }
 
         private void BindFieldCreator()
@@ -33,8 +35,7 @@ namespace Core.Installers
             Container
                 .Bind<IFieldCreator>()
                 .To<FieldCreator>()
-                .AsSingle()
-                .NonLazy();
+                .AsSingle();
         }
 
         private void BindFieldSizeController()

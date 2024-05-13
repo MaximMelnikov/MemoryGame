@@ -7,7 +7,6 @@ using Zenject;
 
 public class Card : MonoBehaviour, IInputInteractable
 {
-    private CardTilesDatabase _cardTilesDatabase;
     private GameController _gameController;
     private AudioService _audioService;
     [SerializeField]
@@ -16,6 +15,8 @@ public class Card : MonoBehaviour, IInputInteractable
     private const float _flipTime = .2f;
     private Sequence _flipSequence;
     private Sequence _failSequence;
+    private Sprite _facedSprite;
+    private Sprite _backSprite;
 
     public int Id { get; private set; }
     public bool IsFaced { get; private set; }
@@ -23,34 +24,33 @@ public class Card : MonoBehaviour, IInputInteractable
 
     [Inject]
     private void Construct(
-        CardTilesDatabase cardTilesDatabase,
         GameController gameController,
         AudioService audioService
         )
     {
-        _cardTilesDatabase = cardTilesDatabase;
         _gameController = gameController;
         _audioService = audioService;
     }
 
-    public void Init(int id)
+    public void Init(int id, Sprite facedSprite, Sprite backSprite)
     {
-        IsInputEnabled = true;
         Id = id;
+        _facedSprite = facedSprite;
+        _backSprite = backSprite;
     }
 
-    private void SetSprite(int id)
+    private void SetSprite(bool isFaced)
     {
-        _spriteRenderer.sprite = _cardTilesDatabase.GetSprite(id);
+        _spriteRenderer.sprite = isFaced ? _facedSprite : _backSprite;
     }
 
     public Sequence FlipCard()
     {
+        IsInputEnabled = false;        
         _flipSequence = DOTween.Sequence();
         _flipSequence
-            .AppendCallback(() => IsInputEnabled = false)
             .Append(_spriteRenderer.transform.DORotate(new Vector3(0, 90, 0), _flipTime))
-            .AppendCallback(() => SetSprite(IsFaced ? FieldSettings.backCardId : Id))
+            .AppendCallback(() => SetSprite(!IsFaced))
             .Append(_spriteRenderer.transform.DORotate(new Vector3(0, 180, 0), _flipTime))
             .AppendCallback(() =>
             {

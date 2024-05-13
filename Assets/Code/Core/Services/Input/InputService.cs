@@ -8,7 +8,6 @@ namespace Core.Services.Input
         public bool IsEnabled { get; set; }
         public InputService()
         {
-            Debug.Log("InputService");
             BindInputs();
         }
 
@@ -34,9 +33,14 @@ namespace Core.Services.Input
 
         public void HandleFingerTap(LeanFinger finger)
         {
+            if (!IsEnabled)
+            {
+                return;
+            }
+
             if (finger.IsOverGui)
             {
-                Debug.Log("Finger " + finger.Index + " tapped on ui");
+                Debug.Log($"Finger {finger.Index} tapped on ui");
             }
             else
             {
