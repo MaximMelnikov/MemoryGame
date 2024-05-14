@@ -6,6 +6,7 @@ namespace Core.Services.Input
     public class InputService : IInputService
     {
         public bool IsEnabled { get; set; }
+        
         public InputService()
         {
             BindInputs();

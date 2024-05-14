@@ -24,7 +24,6 @@ public class GameController
         IFieldCreator fieldCreator,
         IInputService inputService)
     {
-        Debug.Log("GameController" + this.GetHashCode());
         _fieldSettings = fieldSettings;
         _fieldCreator = fieldCreator;
         _inputService = inputService;
@@ -42,7 +41,6 @@ public class GameController
         _secondsToLoose = _fieldSettings.timeToFail;
         _timer = Timer.Register(1, () => TimerTick(), isLooped: true);
         OnTimerTick?.Invoke(_fieldSettings.timeToFail);
-        Debug.Log(this.GetHashCode());
     }
 
     public async Task Hint()

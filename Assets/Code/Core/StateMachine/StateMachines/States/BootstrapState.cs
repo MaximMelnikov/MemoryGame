@@ -20,7 +20,7 @@ namespace Core.StateMachine.StateMachines.States
         {
             Debug.Log("Enter BootstrapState");
             //You can show loading screen here and init services
-            
+            Application.targetFrameRate = 60;
             if (SceneManager.GetActiveScene().name == "Start")
             {
                 _sceneLoader.Load(MenuLevelName);
