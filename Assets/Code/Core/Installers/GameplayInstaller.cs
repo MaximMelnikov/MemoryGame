@@ -8,11 +8,12 @@ namespace Core.Installers
         public override void InstallBindings()
         {
             BindCardTilesDatabase();
+            BindHudController();
             BindFieldSettings();
             BindFieldCreator();
             BindFieldSizeController();
             BindGameController();
-        }
+        }        
 
         private void BindFieldSettings()
         {
@@ -27,6 +28,13 @@ namespace Core.Installers
             Container
                 .Bind<FieldSettings>()
                 .FromResources("FieldSettings")
+                .AsSingle();
+        }
+
+        private void BindHudController()
+        {
+            Container
+                .Bind<HudController>()
                 .AsSingle();
         }
 

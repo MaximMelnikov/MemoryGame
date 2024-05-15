@@ -1,15 +1,27 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
+/// <summary>
+/// Base class of all ui widgets controllers
+/// </summary>
 public class ShadowController : UIWidgetController
 {
-    public override Task Hide()
+    protected override string ViewAssetKey => "ui_shadow_widget";
+    private ShadowView _shadowView;
+
+    public ShadowController(DiContainer diContainer) : base(diContainer)
     {
-        throw new System.NotImplementedException();
     }
 
-    public override Task Show()
+    public override async Task HideView(bool autoDestroy = true)
     {
-        throw new System.NotImplementedException();
+        await _shadowView.Hide();
+    }
+
+    public override async Task ShowView()
+    {
+        _shadowView = await Instantiate<ShadowView>();
+        await _shadowView.Show();
     }
 }

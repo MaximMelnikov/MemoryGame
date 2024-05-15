@@ -1,42 +1,48 @@
 using Core.SceneLoader;
-using TMPro;
+using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-public class HudController : MonoBehaviour
+public class HudController : UIWidgetController
 {
-    [SerializeField]
-    private TextMeshProUGUI timerText;
-
+    public Action<int> OnTimerValueChange;
     private GameController _gameController;
     private ISceneLoader _sceneLoader;
+    private HudView _hudView;
 
     [Inject]
-    private void Construct(
+    public HudController(
+        DiContainer diContainer,
         GameController gameController,
-        ISceneLoader sceneLoader)
+        ISceneLoader sceneLoader) : base(diContainer)
     {
         _gameController = gameController;
         _sceneLoader = sceneLoader;
+
+        Start();
     }
+
+    protected override string ViewAssetKey => "ui_hud_widget";
 
     private void Start()
     {
-        _gameController.OnTimerTick += OnTimerValueChange;
-        OnTimerValueChange(60);
+        _gameController.OnTimerTick += ChangeTimerValue;
+        ChangeTimerValue(60);
     }
 
-    private void OnTimerValueChange(int seconds)
+    private void ChangeTimerValue(int seconds)
     {
-        timerText.text = seconds.ToString();
+        OnTimerValueChange?.Invoke(seconds);
     }
 
-    public void OnHintButtonClick()
+    public void LevelRestart()
     {
-        _gameController.Hint();
+        _gameController.Restart();
     }
 
-    public void OnMenuButtonClick()
+    public void OpenPauseMenu()
     {
         _sceneLoader.Load("Menu");
     }
@@ -44,5 +50,23 @@ public class HudController : MonoBehaviour
     private void OnDestroy()
     {
         _gameController.OnTimerTick -= OnTimerValueChange;
+    }
+
+    public override async Task ShowView()
+    {
+        if (!_hudView)
+        {
+            _hudView = await Instantiate<HudView>();
+        }
+        await _hudView.Show();
+    }
+
+    public override async Task HideView(bool autoDestroy = true)
+    {
+        await _hudView.Hide();
+        if (autoDestroy)
+        {
+            GameObject.Destroy(_hudView);
+        }
     }
 }

@@ -60,7 +60,7 @@ public class WinController : MonoBehaviour
 
     private async Task Hide()
     {
-        _gameController.Hint();
+        _gameController.Restart();
 
         //anim
         _shadow.DOFade(0, .1f);

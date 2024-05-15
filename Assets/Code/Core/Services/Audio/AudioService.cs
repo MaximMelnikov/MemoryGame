@@ -23,11 +23,6 @@ public class AudioService : MonoBehaviour
         _optionsService = optionsService;
     }
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-    }
-
     public void PlayClick()
     {
         Play(_click);

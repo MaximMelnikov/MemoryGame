@@ -2,26 +2,31 @@ using DG.Tweening;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ShadowView : MonoBehaviour
+public class ShadowView : UIWidgetView
 {
+    private const int DefaultSorting = 5; 
     [SerializeField]
     private CanvasGroup _shadow;
-    private Canvas _canvas;
 
-    private void Awake()
+    protected void Awake()
     {
-        _canvas = GetComponent<Canvas>();
+        base.Awake();
         _shadow.alpha = 0f;
     }
 
-    protected virtual async Task ShowShadow(int sortingOrder)
+    public override async Task Show()
+    {
+        await Show(DefaultSorting);
+    }
+
+    public async Task Show(int sortingOrder)
     {
         _canvas.sortingOrder = sortingOrder;
         await _shadow.DOFade(1, .2f).AsyncWaitForCompletion();
     }
 
-    protected virtual async Task HideShadow()
+    public override async Task Hide()
     {
-        _shadow.DOFade(0, .2f);
+        await _shadow.DOFade(0, .2f).AsyncWaitForCompletion();
     }
 }

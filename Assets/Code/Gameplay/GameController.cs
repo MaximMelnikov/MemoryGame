@@ -43,7 +43,7 @@ public class GameController
         OnTimerTick?.Invoke(_fieldSettings.timeToFail);
     }
 
-    public async Task Hint()
+    public async Task Restart()
     {
         if (!_inputService.IsEnabled)
         {

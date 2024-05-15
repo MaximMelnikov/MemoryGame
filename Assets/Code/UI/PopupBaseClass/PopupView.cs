@@ -2,28 +2,31 @@ using DG.Tweening;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class PopupView : MonoBehaviour
+public class PopupView : UIWidgetView
 {
     [SerializeField]
-    private CanvasGroup _popup;
-    private RectTransform _popupRectTransform;
+    private RectTransform _rootRectTransform;
+    private CanvasGroup _rootCanvasGroup;
+    
     private Sequence _showSequence;
     private Sequence _hideSequence;
 
-    private void Awake()
+    protected void Awake()
     {
-        _popupRectTransform = _popup.GetComponent<RectTransform>();
+        base.Awake();
+
+        _rootCanvasGroup = _rootRectTransform.GetComponent<CanvasGroup>();
         CreateShowSequence();
         CreateHideSequence();
     }
 
-    public virtual async Task Show()
+    public override async Task Show()
     {
         _showSequence.Restart();
         await _showSequence.AsyncWaitForCompletion();
     }
 
-    public async Task Hide()
+    public override async Task Hide()
     {
         _hideSequence.Restart();
         await _hideSequence.AsyncWaitForCompletion();
@@ -35,9 +38,9 @@ public class PopupView : MonoBehaviour
         _showSequence.SetAutoKill(false);
         _showSequence.Pause();
 
-        _showSequence.Append(_popupRectTransform.DOMoveY(100, 0));
-        _showSequence.Join(_popupRectTransform.DOLocalJump(Vector3.zero, 1, 3, .3f));
-        _showSequence.Join(_popup.DOFade(1, .3f));
+        _showSequence.Append(_rootRectTransform.DOMoveY(100, 0));
+        _showSequence.Join(_rootRectTransform.DOLocalJump(Vector3.zero, 1, 3, .3f));
+        _showSequence.Join(_rootCanvasGroup.DOFade(1, .3f));
     }
 
     protected virtual void CreateHideSequence()
@@ -46,7 +49,7 @@ public class PopupView : MonoBehaviour
         _hideSequence.SetAutoKill(false);
         _hideSequence.Pause();
 
-        _hideSequence.Append(_popup.DOFade(0, .1f));
-        _hideSequence.Join(_popupRectTransform.DOScale(1, 0));
+        _hideSequence.Append(_rootCanvasGroup.DOFade(0, .1f));
+        _hideSequence.Join(_rootRectTransform.DOScale(1, 0));
     }
 }

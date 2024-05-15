@@ -25,7 +25,7 @@ public class MenuStarter : MonoBehaviour
 
     private void Awake()
     {
-        var projectStarter = FindObjectOfType<Bootstrapper>();
+        var projectStarter = FindFirstObjectByType<Bootstrapper>();
 
         if (projectStarter != null) return;
 

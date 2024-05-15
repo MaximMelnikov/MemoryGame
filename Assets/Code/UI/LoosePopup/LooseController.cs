@@ -4,80 +4,52 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-public class LooseController : MonoBehaviour
+public class LooseController : UIWidgetController
 {
-    [SerializeField]
-    private CanvasGroup _window;
-    [SerializeField]
-    private CanvasGroup _shadow;
-    private AudioService _audioService;
-    private IInputService _inputService;
-    private GameController _gameController;
+    protected override string ViewAssetKey => "ui_loose_popup";
 
-    [Inject]
-    private void Construct(
+    private AudioService _audioService;
+    private GameController _gameController;
+    private IInputService _inputService;
+    private LooseView _looseView;
+
+    public LooseController(
+        DiContainer diContainer,
         IInputService inputService,
         AudioService audioService,
-        GameController gameController)
+        GameController gameController) : base(diContainer)
     {
-        _audioService = audioService;
         _inputService = inputService;
+        _audioService = audioService;
         _gameController = gameController;
-    }
-
-    private void Start()
-    {
-        _gameController.OnLoose += OnLoose;
     }
 
     public void OnPlayButton()
     {
-        Hide();
+        _gameController.Restart();
+        HideView(true);
     }
 
-    private async Task Show()
+    public override async Task ShowView()
     {
-        //anim
-        _shadow.DOFade(1, .2f);
-        _shadow.blocksRaycasts = true;
-
-        var rectTransform = _window.GetComponent<RectTransform>();
         _inputService.DisableInput();
-        rectTransform.DOMoveY(100, 0);
-        rectTransform.DOLocalJump(Vector3.zero, 1, 3, .3f);
-        await _window.DOFade(1, .3f).AsyncWaitForCompletion();
-        _window.blocksRaycasts = true;
-        _window.interactable = true;
+        if (!_looseView)
+        {
+            _looseView = await Instantiate<LooseView>();
+        }
+        await _looseView.Show();
+        _inputService.EnableInput();
         _audioService.PlayLoose();
-        _inputService.EnableInput();
     }
 
-    private async Task Hide()
+    public override async Task HideView(bool autoDestroy = true)
     {
-        _gameController.Hint();
-
-        //anim
-        _shadow.DOFade(0, .1f);
-        _shadow.blocksRaycasts = false;
-
-        var rectTransform = _window.GetComponent<RectTransform>();
-        _inputService.DisableInput();
+        await _looseView.Hide();
+        if (autoDestroy)
+        {
+            GameObject.Destroy(_looseView);
+        }
+        
         _audioService.PlayClick();
-        rectTransform.DOScale(0, .1f);
-        await _window.DOFade(0, .1f).AsyncWaitForCompletion();
-        _window.blocksRaycasts = false;
-        _window.interactable = false;
-        rectTransform.DOScale(1, 0);
-        _inputService.EnableInput();
-    }
-
-    private void OnLoose()
-    {
-        Show();
-    }
-
-    private void OnDestroy()
-    {
-        _gameController.OnLoose -= OnLoose;
     }
 }
