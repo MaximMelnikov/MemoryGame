@@ -40,7 +40,7 @@ SpriteAtlas:
       blockOffset: 1
       allowAlphaSplitting: 0
       enableRotation: 1
-      enableTightPacking: 1
+      enableTightPacking: 0
       enableAlphaDilation: 0
     secondaryTextureSettings: {}
     variantMultiplier: 1
@@ -63,7 +63,9 @@ SpriteAtlas:
     - 7914ab443273b754aad18e5444df156d: 21300000
     - 0f232649b854242448d8769b24810549: 21300000
     - 6d210949dbb5739419787488dd32ac38: 21300000
+    - cd1a13792d8e0f74d9b1372c8f85ecdb: -6187202204847614419
     - 5fabf3f9f54bf7742838edb50e636298: 21300000
+    - a9963dddd65968640b0ac03902608f85: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: c83682e10597e7348ab3fa937d9816a1, type: 3}
@@ -76,7 +78,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7914ab443273b754aad18e5444df156d, type: 3}
   - {fileID: 21300000, guid: 0f232649b854242448d8769b24810549, type: 3}
   - {fileID: 21300000, guid: 6d210949dbb5739419787488dd32ac38, type: 3}
+  - {fileID: -6187202204847614419, guid: cd1a13792d8e0f74d9b1372c8f85ecdb, type: 3}
   - {fileID: 21300000, guid: 5fabf3f9f54bf7742838edb50e636298, type: 3}
+  - {fileID: 21300000, guid: a9963dddd65968640b0ac03902608f85, type: 3}
   m_PackedSpriteNamesToIndex:
   - green_button06
   - red_checkmark
@@ -88,7 +92,9 @@ SpriteAtlas:
   - green_panel
   - excited-minions-gif-360x163
   - red_sliderUp
+  - options_icon_0
   - red_tick
+  - restart_icon
   m_RenderDataMap: {}
   m_Tag: atlas
   m_IsVariant: 0
