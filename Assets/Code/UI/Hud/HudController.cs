@@ -29,7 +29,6 @@ public class HudController : UIWidgetController
     private void Start()
     {
         _gameController.OnTimerTick += ChangeTimerValue;
-        ChangeTimerValue(60);
     }
 
     private void ChangeTimerValue(int seconds)
@@ -57,6 +56,7 @@ public class HudController : UIWidgetController
         if (!_hudView)
         {
             _hudView = await Instantiate<HudView>();
+            ChangeTimerValue(60);
         }
         await _hudView.Show();
     }

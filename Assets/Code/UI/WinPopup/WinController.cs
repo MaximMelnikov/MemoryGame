@@ -4,28 +4,28 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-public class WinController : MonoBehaviour
+public class WinController : UIWidgetController
 {
-    [SerializeField]
-    private CanvasGroup _window;
-    [SerializeField]
-    private CanvasGroup _shadow;
-    [SerializeField]
-    private ParticleSystem _firework;
+    protected override string ViewAssetKey => "ui_win_popup";
 
     private AudioService _audioService;
     private IInputService _inputService;
     private GameController _gameController;
 
+    private WinView _winView;
+
     [Inject]
-    private void Construct(
+    public WinController(
+        DiContainer diContainer,
         IInputService inputService,
         AudioService audioService,
-        GameController gameController)
+        GameController gameController) : base (diContainer)
     {
         _audioService = audioService;
         _inputService = inputService;
         _gameController = gameController;
+
+        Start();
     }
 
     private void Start()
@@ -35,51 +35,36 @@ public class WinController : MonoBehaviour
 
     public void OnPlayButton()
     {
-        Hide();
+        _gameController.Restart();
+        HideView();
     }
 
-    private async Task Show()
+    public override async Task ShowView()
     {
-        var rectTransform = _window.GetComponent<RectTransform>();
-
-        //anim
-        _firework.Play();
-
-        _shadow.DOFade(1, .2f);
-        _shadow.blocksRaycasts = true;
-
         _inputService.DisableInput();
-        rectTransform.DOMoveY(100, 0);
-        rectTransform.DOLocalJump(Vector3.zero, 1, 3, .3f);
-        await _window.DOFade(1, .3f).AsyncWaitForCompletion();
-        _window.blocksRaycasts = true;
-        _window.interactable = true;
+        if (!_winView)
+        {
+            _winView = await Instantiate<WinView>();
+        }
+        await _winView.Show();
         _audioService.PlayWin();
         _inputService.EnableInput();
     }
 
-    private async Task Hide()
+    public override async Task HideView(bool autoDestroy = true)
     {
-        _gameController.Restart();
+        await _winView.Hide();
+        if (autoDestroy)
+        {
+            GameObject.Destroy(_winView);
+        }
 
-        //anim
-        _shadow.DOFade(0, .1f);
-        _shadow.blocksRaycasts = false;
-
-        var rectTransform = _window.GetComponent<RectTransform>();
-        _inputService.DisableInput();
         _audioService.PlayClick();
-        rectTransform.DOScale(0, .1f);
-        await _window.DOFade(0, .1f).AsyncWaitForCompletion();
-        _window.blocksRaycasts = false;
-        _window.interactable = false;
-        rectTransform.DOScale(1, 0);
-        _inputService.EnableInput();
     }
 
     private void OnWin()
     {
-        Show();
+        ShowView();
     }
 
     private void OnDestroy()

@@ -1,5 +1,6 @@
 using Core.Services.Input;
 using DG.Tweening;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -13,6 +14,7 @@ public class LooseController : UIWidgetController
     private IInputService _inputService;
     private LooseView _looseView;
 
+    [Inject]
     public LooseController(
         DiContainer diContainer,
         IInputService inputService,
@@ -22,6 +24,18 @@ public class LooseController : UIWidgetController
         _inputService = inputService;
         _audioService = audioService;
         _gameController = gameController;
+
+        Start();
+    }
+
+    private void Start()
+    {
+        _gameController.OnLoose += OnLoose;
+    }
+
+    private void OnLoose()
+    {
+        ShowView();
     }
 
     public void OnPlayButton()
@@ -51,5 +65,10 @@ public class LooseController : UIWidgetController
         }
         
         _audioService.PlayClick();
+    }
+
+    private void OnDestroy()
+    {
+        _gameController.OnLoose -= OnLoose;
     }
 }

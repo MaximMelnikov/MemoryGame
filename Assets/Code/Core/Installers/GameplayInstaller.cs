@@ -13,7 +13,9 @@ namespace Core.Installers
             BindFieldCreator();
             BindFieldSizeController();
             BindGameController();
-        }        
+            BindLooseController();
+            BindWinController();
+        }
 
         private void BindFieldSettings()
         {
@@ -58,6 +60,22 @@ namespace Core.Installers
             Container
                 .Bind<GameController>()
                 .AsSingle();
+        }
+
+        private void BindLooseController()
+        {
+            Container
+                .Bind<LooseController>()
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindWinController()
+        {
+            Container
+                .Bind<WinController>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

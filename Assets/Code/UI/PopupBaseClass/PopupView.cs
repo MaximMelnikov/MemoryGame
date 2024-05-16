@@ -11,11 +11,12 @@ public class PopupView : UIWidgetView
     private Sequence _showSequence;
     private Sequence _hideSequence;
 
-    protected void Awake()
+    protected new void Awake()
     {
         base.Awake();
 
         _rootCanvasGroup = _rootRectTransform.GetComponent<CanvasGroup>();
+        _rootCanvasGroup.alpha = 0f;
         CreateShowSequence();
         CreateHideSequence();
     }
@@ -38,8 +39,8 @@ public class PopupView : UIWidgetView
         _showSequence.SetAutoKill(false);
         _showSequence.Pause();
 
-        _showSequence.Append(_rootRectTransform.DOMoveY(100, 0));
-        _showSequence.Join(_rootRectTransform.DOLocalJump(Vector3.zero, 1, 3, .3f));
+        _showSequence.Append(_rootRectTransform.DOLocalMoveY(100, 0));
+        _showSequence.Append(_rootRectTransform.DOLocalMoveY(0, .3f));
         _showSequence.Join(_rootCanvasGroup.DOFade(1, .3f));
     }
 

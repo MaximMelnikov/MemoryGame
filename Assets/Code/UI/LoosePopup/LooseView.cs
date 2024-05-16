@@ -15,8 +15,9 @@ public class LooseView : PopupView
         _looseController = looseController;
     }
 
-    private void Awake()
+    private new void Awake()
     {
+        base.Awake();
         _playButton.onClick.AddListener(_looseController.OnPlayButton);
     }
 }
