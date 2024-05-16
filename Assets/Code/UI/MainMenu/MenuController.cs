@@ -1,9 +1,8 @@
 using Core.SceneLoader;
-using Core.StateMachine;
 using UnityEngine;
 using Zenject;
 
-public class MenuController : MonoBehaviour
+public class MenuController
 {
     private const string GameplayLevelName = "Gameplay";
     [SerializeField]
@@ -20,10 +19,5 @@ public class MenuController : MonoBehaviour
     public void PlayButton()
     {
         _sceneLoader.Load(GameplayLevelName);
-    }
-
-    public void OptionsButton()
-    {
-        _optionsController.Show();
     }
 }

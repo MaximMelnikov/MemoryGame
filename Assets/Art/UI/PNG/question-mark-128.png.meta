@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: cd1a13792d8e0f74d9b1372c8f85ecdb
+guid: a9a0a8bd4c81d6f45abf29f2afc65665
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6187202204847614419
-    second: options_icon_0
+      213: -9017603563044927874
+    second: question-mark-128_0
+  - first:
+      213: -1698540487526906049
+    second: question-mark-128_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -53,7 +56,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -72,7 +75,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -113,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: options_icon_0
+      name: question-mark-128_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 240
-        height: 240
+        x: 27
+        y: 41
+        width: 74
+        height: 87
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +131,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d265b8a3064a22aa0800000000000000
-      internalID: -6187202204847614419
+      spriteID: e76096336590bd280800000000000000
+      internalID: -9017603563044927874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: question-mark-128_1
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 0
+        width: 32
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3707540d629d68e0800000000000000
+      internalID: -1698540487526906049
       vertices: []
       indices: 
       edges: []
@@ -146,7 +171,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      options_icon_0: -6187202204847614419
+      question-mark-128_0: -9017603563044927874
+      question-mark-128_1: -1698540487526906049
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
