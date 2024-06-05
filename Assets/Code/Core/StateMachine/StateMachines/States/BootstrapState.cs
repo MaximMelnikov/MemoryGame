@@ -1,5 +1,5 @@
 ﻿using Core.SceneLoader;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,19 +15,19 @@ namespace Core.StateMachine.StateMachines.States
         {
             _sceneLoader = sceneLoader;
         }
-        
-        public async Task Enter()
+
+        public async UniTask Enter()
         {
             Debug.Log("Enter BootstrapState");
             //You can show loading screen here and init services
             Application.targetFrameRate = 60;
             if (SceneManager.GetActiveScene().name == "Start")
             {
-                _sceneLoader.Load(MenuLevelName);
+                await _sceneLoader.Load(MenuLevelName);
             }
         }
 
-        public async Task Exit()
+        public async UniTask Exit()
         {
             Debug.Log("Exit BootstrapState");
         }

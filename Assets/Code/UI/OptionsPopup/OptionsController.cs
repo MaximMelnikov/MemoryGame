@@ -1,8 +1,3 @@
-using Core.Services.Input;
-using DG.Tweening;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 public class OptionsController

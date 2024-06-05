@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 namespace Core.SceneLoader
 {
     public interface ISceneLoader
     {
-        public void Load(string name);
+        public UniTask Load(string name);
     }
 }

@@ -17,8 +17,14 @@ namespace Core.Installers
             BindInput();
             BindOptionsService();
             BindAudioService();
+            BindUIService();
         }
-        
+
+        private void BindUIService()
+        {
+            Container.BindInterfacesAndSelfTo<UIService>().AsSingle().NonLazy();
+        }
+
         private void BindProjectStateMachine()
         {
             Container
@@ -32,7 +38,7 @@ namespace Core.Installers
                 .Bind<BootstrapperFactory>()
                 .AsSingle();
         }
-        
+
         private void BindSceneLoader()
         {
             Container
@@ -62,7 +68,7 @@ namespace Core.Installers
                 .FromInstance(audioService.GetComponent<AudioService>())
                 .AsSingle();
         }
-        
+
         private void BindOptionsService()
         {
             Container

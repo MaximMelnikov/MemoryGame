@@ -1,6 +1,5 @@
 ﻿using Core.SceneLoader;
-using System.Collections;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Core.StateMachine.StateMachines.States
@@ -15,13 +14,13 @@ namespace Core.StateMachine.StateMachines.States
             _sceneLoader = sceneLoader;
         }
 
-        public async Task Enter()
+        public async UniTask Enter()
         {
-            _sceneLoader.Load(MenuLevelName);
+            await _sceneLoader.Load(MenuLevelName);
             Debug.Log("Enter MenuState");
         }
 
-        public async Task Exit()
+        public async UniTask Exit()
         {
             Debug.Log("Exit MenuState");
         }

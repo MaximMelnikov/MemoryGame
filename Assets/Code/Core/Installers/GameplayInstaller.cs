@@ -1,4 +1,4 @@
-using System;
+using Core.StateMachine.StateMachines.States;
 using Zenject;
 
 namespace Core.Installers
@@ -8,13 +8,12 @@ namespace Core.Installers
         public override void InstallBindings()
         {
             BindCardTilesDatabase();
-            BindHudController();
             BindFieldSettings();
             BindFieldCreator();
             BindFieldSizeController();
             BindGameController();
-            BindLooseController();
-            BindWinController();
+            BindHudController();
+            BindStates();
         }
 
         private void BindFieldSettings()
@@ -30,13 +29,6 @@ namespace Core.Installers
             Container
                 .Bind<FieldSettings>()
                 .FromResources("FieldSettings")
-                .AsSingle();
-        }
-
-        private void BindHudController()
-        {
-            Container
-                .Bind<HudController>()
                 .AsSingle();
         }
 
@@ -62,20 +54,25 @@ namespace Core.Installers
                 .AsSingle();
         }
 
-        private void BindLooseController()
+        private void BindHudController()
         {
+            Container.Bind<HudView>()
+                .AsSingle();
+
             Container
-                .Bind<LooseController>()
-                .AsSingle()
-                .NonLazy();
+                .Bind<HudViewModel>()
+                .AsTransient();
         }
 
-        private void BindWinController()
+        private void BindStates()
         {
             Container
-                .Bind<WinController>()
-                .AsSingle()
-                .NonLazy();
+                .Bind<GameplayPreloadState>()
+                .AsSingle();
+
+            Container
+                .Bind<GameplayState>()
+                .AsSingle();
         }
     }
 }

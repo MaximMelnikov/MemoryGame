@@ -37,7 +37,7 @@ public class FieldCreator : IFieldCreator
         {
             _cardsContainer = new GameObject("CardsContainer").transform;
         }
-        
+
         int cardsCount = _fieldSettings.columnsCount * _fieldSettings.rowsCount;
         if ((float)cardsCount / 2 % 1 != 0)
         {
@@ -123,10 +123,10 @@ public class FieldCreator : IFieldCreator
             .Take(missingPairsCount)
             .ToArray();
 
-        int[] cards = new int[totalPairsCount*2];
+        int[] cards = new int[totalPairsCount * 2];
         uniquePairsIds.CopyTo(cards, 0);
         uniquePairsIds.CopyTo(cards, uniquePairsIds.Length);//we need to double list because we need a pair for every card
-        missingPairsIds.CopyTo(cards, uniquePairsIds.Length*2);
+        missingPairsIds.CopyTo(cards, uniquePairsIds.Length * 2);
         missingPairsIds.CopyTo(cards, uniquePairsIds.Length * 2 + missingPairsIds.Length);
 
         //one more randomizer

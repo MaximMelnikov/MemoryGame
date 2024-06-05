@@ -16,7 +16,7 @@ namespace Core
 
             Init();
         }
-        
+
         private void Init()
         {
             _projectStateMachine.Enter<BootstrapState>();

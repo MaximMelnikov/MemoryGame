@@ -9,7 +9,7 @@ namespace Core.Installers
             BindMenuController();
             BindOptionsController();
         }
-        
+
         private void BindMenuController()
         {
             Container

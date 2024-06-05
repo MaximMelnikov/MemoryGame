@@ -1,14 +1,11 @@
 using Core.Services.Input;
 using System;
 using System.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 
 public class GameController
 {
-    public event Action<int> OnTimerTick;
-    public event Action OnWin;
-    public event Action OnLoose;
-
     private FieldSettings _fieldSettings;
     private IFieldCreator _fieldCreator;
     private IInputService _inputService;
@@ -16,8 +13,7 @@ public class GameController
     private Card _selectedCard;
     private int _pairsFound;
 
-    private Timer _timer;
-    private int _secondsToLoose;
+    public CountdownTimer Timer { get; private set; }
 
     public GameController(
         FieldSettings fieldSettings,
@@ -27,6 +23,9 @@ public class GameController
         _fieldSettings = fieldSettings;
         _fieldCreator = fieldCreator;
         _inputService = inputService;
+
+        Timer = new CountdownTimer(_fieldSettings.timeToFail, Loose);
+        Timer.Pause();
     }
 
     public async Task Play()
@@ -36,11 +35,7 @@ public class GameController
         await Task.Delay(_fieldSettings.showCardsTime * 1000);
         await FlipAllCardsAnim();
         _inputService.EnableInput();
-
-        //start timer
-        _secondsToLoose = _fieldSettings.timeToFail;
-        _timer = Timer.Register(1, () => TimerTick(), isLooped: true);
-        OnTimerTick?.Invoke(_fieldSettings.timeToFail);
+        Timer.StartNewTimer(_fieldSettings.timeToFail);
     }
 
     public async Task Restart()
@@ -57,10 +52,10 @@ public class GameController
         {
             item.Reset();
         }
-        
+
         _selectedCard = null;
         _pairsFound = 0;
-        _timer.Pause();
+        Timer.Pause();
 
         //shuffle cards
         _fieldCreator.ShuffleField();
@@ -76,7 +71,7 @@ public class GameController
             return;
         }
 
-        if (_selectedCard.Id == card.Id) 
+        if (_selectedCard.Id == card.Id)
         {
             _selectedCard.PairFound();
             card.PairFound();
@@ -98,14 +93,12 @@ public class GameController
 
     private void Win()
     {
-        OnWin?.Invoke();
-        _timer.Cancel();
+
     }
 
     private void Loose()
     {
-        OnLoose?.Invoke();
-        _timer.Cancel();
+
     }
 
     private async Task FlipAllCardsAnim()
@@ -114,20 +107,6 @@ public class GameController
         {
             item.FlipCard();
             await Task.Delay(50);
-        }
-    }
-
-    /// <summary>
-    /// Tick once per second
-    /// </summary>
-    private void TimerTick()
-    {
-        _secondsToLoose--;
-        OnTimerTick?.Invoke(_secondsToLoose);
-
-        if (_secondsToLoose <= 0)
-        {
-            Loose();
         }
     }
 }

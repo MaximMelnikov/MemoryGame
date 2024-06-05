@@ -14,7 +14,7 @@ namespace Core.Factory
 
         public void CreateBootstrapper()
         {
-            Bootstrapper bootstrapper = 
+            Bootstrapper bootstrapper =
                 new GameObject("Bootstrapper")
                 .AddComponent<Bootstrapper>();
             _container.Inject(bootstrapper);

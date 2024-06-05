@@ -1,6 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
+using TMPro;
+using UniRx;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using Zenject;
 
 public static class Extensions
 {
@@ -16,5 +20,36 @@ public static class Extensions
             rectTransform.lossyScale.y * rectTransform.rect.size.y);
 
         return new Rect(position, size);
+    }
+
+    public static IDisposable SubscribeToText(this IObservable<string> source, TextMeshProUGUI text)
+    {
+        return source.SubscribeWithState(text, (x, t) => t.text = x);
+    }
+
+    public static IDisposable SubscribeToText<T>(this IObservable<T> source, TextMeshProUGUI text)
+    {
+        return source.SubscribeWithState(text, (x, t) => t.text = x.ToString());
+    }
+
+    public static async Task<TView> OpenWindow<TView, TViewModel>(this DiContainer container, string viewAssetKey, string uid = null) where TView : UIWidgetView where TViewModel : IViewModel
+    {
+        GameObject gameObject = null;
+        var viewModel = container.Resolve<TViewModel>();
+        uid = uid ?? viewAssetKey;
+        try
+        {
+            gameObject = await Addressables.LoadAssetAsync<GameObject>(uid).Task;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"{viewModel.ToString()} view can't be loaded. ViewAssetKey: {viewAssetKey}");
+            throw e;
+        }
+        var instantiatedGameObject = GameObject.Instantiate(gameObject);
+        var uiWidgetView = container.InjectGameObjectForComponent<TView>(instantiatedGameObject);
+        uiWidgetView.Initialize(viewModel);
+
+        return uiWidgetView;
     }
 }

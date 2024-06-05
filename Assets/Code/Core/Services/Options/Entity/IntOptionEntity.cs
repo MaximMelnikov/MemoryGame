@@ -4,7 +4,7 @@ public class IntOptionEntity : IOptionEntity<int>, ISavableData
 {
     public event Action<int> OnOptionChanged;
     public string Name { get; set; }
-    
+
     private int _value;
     public int Value
     {
@@ -14,7 +14,7 @@ public class IntOptionEntity : IOptionEntity<int>, ISavableData
         }
         set
         {
-            if (_value != value) 
+            if (_value != value)
             {
                 OnOptionChanged?.Invoke(value);
             }

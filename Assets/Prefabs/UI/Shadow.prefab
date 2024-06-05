@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4520570155145352704}
   - component: {fileID: 5688534588452280249}
   - component: {fileID: -4014116231451860675}
+  - component: {fileID: 913371251528446066}
   m_Layer: 5
   m_Name: Shadow
   m_TagString: Untagged
@@ -112,3 +113,16 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &913371251528446066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262744704721872996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd537d176c27eb440b6239ebe75e243d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shadow: {fileID: 5688534588452280249}

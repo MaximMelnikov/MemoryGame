@@ -1,12 +1,14 @@
 using System.Threading.Tasks;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 public class HudView : UIWidgetView
 {
-    private HudController _hudController;
+    public static string ViewAssetKey => "ui_hud_widget";
+
+    private HudViewModel _hudViewModel;
 
     [SerializeField]
     private TextMeshProUGUI _timerText;
@@ -15,47 +17,34 @@ public class HudView : UIWidgetView
     [SerializeField]
     private Button _pauseButton;
 
-    [Inject]
-    private void Construct(
-        HudController hudController)
+    public override void Initialize(IViewModel viewModel)
     {
-        _hudController = hudController;
-    }
+        Debug.Log("HudView Initialize");
+        Show();
+        _hudViewModel = viewModel as HudViewModel;
 
-    protected void Awake()
-    {
-        base.Awake();
-
-        _hudController.OnTimerValueChange += OnTimerValueChange;
+        _hudViewModel.gameController.Timer.TimeRemaining.SubscribeToText(_timerText).AddTo(this);
         _restartButton.onClick.AddListener(OnRestartButtonClick);
         _pauseButton.onClick.AddListener(OnPauseButtonClick);
     }
 
-    private void OnTimerValueChange(int seconds)
-    {
-        _timerText.text = seconds.ToString();
-    }
-
     private void OnRestartButtonClick()
     {
-        _hudController.LevelRestart();
+        _hudViewModel.LevelRestart();
     }
 
     private void OnPauseButtonClick()
     {
-        _hudController.OpenPauseMenu();
+        _hudViewModel.OpenPauseMenu();
     }
 
-    public override async Task Show()
+    public override Task Show()
     {
+        return null;
     }
 
-    public override async Task Hide()
+    public override Task Hide(bool autoDestroy = true)
     {
-    }
-
-    private void OnDestroy()
-    {
-        _hudController.OnTimerValueChange -= OnTimerValueChange;
+        return null;
     }
 }

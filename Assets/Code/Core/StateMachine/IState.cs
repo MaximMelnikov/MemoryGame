@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 namespace Core.StateMachine
 {
     public interface IState
     {
-        public Task Enter();
-        public Task Exit();
+        public UniTask Enter();
+        public UniTask Exit();
     }
 }

@@ -25,8 +25,7 @@ public class Card : MonoBehaviour, IInputInteractable
     [Inject]
     private void Construct(
         GameController gameController,
-        AudioService audioService
-        )
+        AudioService audioService)
     {
         _gameController = gameController;
         _audioService = audioService;
@@ -46,7 +45,7 @@ public class Card : MonoBehaviour, IInputInteractable
 
     public Sequence FlipCard()
     {
-        IsInputEnabled = false;        
+        IsInputEnabled = false;
         _flipSequence = DOTween.Sequence();
         _flipSequence
             .Append(_spriteRenderer.transform.DORotate(new Vector3(0, 90, 0), _flipTime))

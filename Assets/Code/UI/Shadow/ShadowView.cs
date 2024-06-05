@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class ShadowView : UIWidgetView
 {
-    private const int DefaultSorting = 5; 
+    private const int DefaultSorting = 5;
     [SerializeField]
     private CanvasGroup _shadow;
 
-    protected void Awake()
+    public override void Initialize(IViewModel viewModel)
+    {
+
+    }
+
+    protected override void Awake()
     {
         base.Awake();
         _shadow.alpha = 0f;
@@ -25,7 +30,7 @@ public class ShadowView : UIWidgetView
         await _shadow.DOFade(1, .2f).AsyncWaitForCompletion();
     }
 
-    public override async Task Hide()
+    public override async Task Hide(bool autoDestroy = true)
     {
         await _shadow.DOFade(0, .2f).AsyncWaitForCompletion();
     }

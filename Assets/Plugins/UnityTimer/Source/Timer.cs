@@ -21,15 +21,17 @@ public class Timer
 {
     #region Public Properties/Fields
 
+    public event Action<float> OnUpdate;
+
     /// <summary>
     /// How long the timer takes to complete from start to finish.
     /// </summary>
-    public float duration { get; private set; }
+    public float duration { get; set; }
 
     /// <summary>
     /// Whether the timer will run again after completion.
     /// </summary>
-    public bool isLooped { get; set; }
+    public bool isLooped { get; private set; }
 
     /// <summary>
     /// Whether or not the timer completed running. This is false if the timer was cancelled.
@@ -297,7 +299,6 @@ public class Timer
 
     private readonly Action _onComplete;
     public Action OnComplete { get => _onComplete; }
-    private readonly Action<float> _onUpdate;
     private float _startTime;
     private float _lastUpdateTime;
 
@@ -323,7 +324,7 @@ public class Timer
     {
         this.duration = duration;
         this._onComplete = onComplete;
-        this._onUpdate = onUpdate;
+        this.OnUpdate = onUpdate;
 
         this.isLooped = isLooped;
         this.usesRealTime = usesRealTime;
@@ -376,9 +377,9 @@ public class Timer
 
         this._lastUpdateTime = this.GetWorldTime();
 
-        if (this._onUpdate != null)
+        if (this.OnUpdate != null)
         {
-            this._onUpdate(this.GetTimeElapsed());
+            this.OnUpdate(this.GetTimeElapsed());
         }
 
         if (this.GetWorldTime() >= this.GetFireTime())

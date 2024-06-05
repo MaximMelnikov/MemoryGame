@@ -1,5 +1,6 @@
 using Core.Services.Input;
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -35,23 +36,23 @@ public class MenuView : MonoBehaviour
 
     public void ChangeTab(int index)
     {
+        if (index == _currentTabIndex)
+        {
+            return;
+        }
         ShowTab(index, true);
     }
 
     public async Task ShowTab(int index, bool animated)
     {
-        if (index == _currentTabIndex)
-        {
-            return;
-        }
         _tabs[index].gameObject.SetActive(true);
         _buttons[index].interactable = false;
         _buttons[_currentTabIndex].interactable = true;
-        
+
         if (animated)
         {
-            _inputService.DisableInput();
             float scrollSide = _currentTabIndex < index ? 1f : -1f;
+            _inputService.DisableInput();
             _tabs[index].DOAnchorPosX(scrollSide * Screen.width, 0);
             _tabs[index].DOAnchorPosX(0, .5f);
             await _tabs[_currentTabIndex].DOAnchorPosX(0 - scrollSide * Screen.width, .5f).AsyncWaitForCompletion();

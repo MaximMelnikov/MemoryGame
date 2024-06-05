@@ -27,7 +27,7 @@ namespace Core.StateMachine
         {
             if (!force && CurrentState == GetState<TState>())
                 return;
-            
+
             TState newState = await ChangeState<TState>();
             await newState.Enter();
         }
@@ -36,9 +36,9 @@ namespace Core.StateMachine
         {
             if (CurrentState != null)
                 await CurrentState.Exit();
-            
+
             TState newState = GetState<TState>();
-            
+
             CurrentState = newState;
             OnStateChange?.Invoke(CurrentState);
             return newState;

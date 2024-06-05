@@ -1,12 +1,16 @@
+using Core.Services.Input;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class WinView : PopupView
+public class WinView : UIPopupView
 {
-    private WinController _winController;
-    private GameController _gameController;
+    public static string ViewAssetKey => "ui_win_popup";
+
+    private WinViewModel _winController;
+    private AudioService _audioService;
+    private IInputService _inputService;
 
     [SerializeField]
     private Button _playButton;
@@ -15,26 +19,30 @@ public class WinView : PopupView
 
     [Inject]
     private void Construct(
-        WinController winController,
-        GameController gameController)
+        IInputService inputService,
+        AudioService audioService)
     {
-        _winController = winController;
-        _gameController = gameController;
+        _inputService = inputService;
+        _audioService = audioService;
     }
 
-    private new void Awake()
+    public override void Initialize(IViewModel viewModel)
     {
-        base.Awake();
+        Show();
         _playButton.onClick.AddListener(_winController.OnPlayButton);
-    }
-
-    public void OnPlayButton()
-    {
-        Hide();
     }
 
     public override async Task Show()
     {
+        _inputService.DisableInput();
         await base.Show();
+        _audioService.PlayWin();
+    }
+
+    public override async Task Hide(bool autoDestroy = true)
+    {
+        await base.Hide();
+        _audioService.PlayClick();
+        _inputService.EnableInput();
     }
 }

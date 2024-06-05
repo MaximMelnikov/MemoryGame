@@ -6,7 +6,7 @@ namespace Core.Services.Input
     public class InputService : IInputService
     {
         public bool IsEnabled { get; set; }
-        
+
         public InputService()
         {
             BindInputs();
@@ -53,7 +53,7 @@ namespace Core.Services.Input
         private IInputInteractable PhysRaycaster(LeanFinger finger)
         {
             int mask = 1 << LayerMask.NameToLayer("Default");
-            
+
             var physHits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(finger.ScreenPosition), Vector2.zero, int.MaxValue, mask);
 
             IInputInteractable result = null;
@@ -63,7 +63,7 @@ namespace Core.Services.Input
                 if (physHits[i].collider == null) continue;
 
                 var interactable = physHits[i].transform.GetComponent<IInputInteractable>();
-                
+
                 if (interactable != null && interactable.IsInputEnabled)
                 {
                     result = interactable;
