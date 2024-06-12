@@ -28,10 +28,7 @@ namespace Core.StateMachine.StateMachines.States
             Debug.Log("Exit GameplayState");
             
             _fieldCreator.Dispose();
-            _fieldCreator = null;
-            
             _gameController.Dispose();
-            _gameController = null;
         }
     }
 }
