@@ -1,3 +1,4 @@
+using UnityEngine;
 using Zenject;
 
 public class LooseViewModel : IViewModel
@@ -14,5 +15,10 @@ public class LooseViewModel : IViewModel
     public void OnPlayButton()
     {
         _gameController.Restart();
+    }
+
+    ~LooseViewModel()
+    {
+        Debug.Log("LooseViewModel destr");
     }
 }

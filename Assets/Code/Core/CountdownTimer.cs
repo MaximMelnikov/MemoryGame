@@ -1,7 +1,7 @@
 using System;
 using UniRx;
 
-public class CountdownTimer
+public class CountdownTimer : IDisposable
 {
     private Action onComplete;
 
@@ -37,9 +37,9 @@ public class CountdownTimer
 
     public void Stop()
     {
+        _isPaused = true;
         TimeRemaining.Value = _duration;
         TimeElapsed.Value = 0;
-        timer.Dispose();
     }
 
     public void Resume()
@@ -75,5 +75,11 @@ public class CountdownTimer
             Stop();
             onComplete?.Invoke();
         }
+    }
+
+    public void Dispose()
+    {
+        onComplete = null;
+        timer.Dispose();
     }
 }

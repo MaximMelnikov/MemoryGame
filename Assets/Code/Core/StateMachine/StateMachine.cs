@@ -8,7 +8,7 @@ namespace Core.StateMachine
     {
         public Action<IState> OnStateChange { get; set; }
         public IState CurrentState { get; private set; }
-        private readonly Dictionary<Type, IState> _registeredStates = new Dictionary<Type, IState>();
+        private Dictionary<Type, IState> _registeredStates = new Dictionary<Type, IState>();
 
         public void RegisterState<TState>(IState state, bool force = false) where TState : IState
         {

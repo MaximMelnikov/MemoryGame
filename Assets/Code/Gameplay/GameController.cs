@@ -3,9 +3,11 @@ using System;
 using System.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
-public class GameController
+public class GameController : IDisposable
 {
+    private readonly DiContainer _container;
     private FieldSettings _fieldSettings;
     private IFieldCreator _fieldCreator;
     private IInputService _inputService;
@@ -16,10 +18,12 @@ public class GameController
     public CountdownTimer Timer { get; private set; }
 
     public GameController(
+        DiContainer container,
         FieldSettings fieldSettings,
         IFieldCreator fieldCreator,
         IInputService inputService)
     {
+        _container = container;
         _fieldSettings = fieldSettings;
         _fieldCreator = fieldCreator;
         _inputService = inputService;
@@ -93,12 +97,12 @@ public class GameController
 
     private void Win()
     {
-
+        _container.OpenWindow<WinView, WinViewModel>(WinView.ViewAssetKey);
     }
 
     private void Loose()
     {
-
+        _container.OpenWindow<LooseView, LooseViewModel>(LooseView.ViewAssetKey);
     }
 
     private async Task FlipAllCardsAnim()
@@ -108,5 +112,16 @@ public class GameController
             item.FlipCard();
             await Task.Delay(50);
         }
+    }
+
+    public void Dispose()
+    {
+        Debug.Log("GameController Dispose");
+        Timer.Dispose();
+    }
+
+    ~GameController()
+    {
+        Debug.Log("GameController DESTR");
     }
 }

@@ -20,7 +20,7 @@ public abstract class UIPopupView : UIWidgetView
         _inputService = inputService;
     }
 
-    public override void Initialize(IViewModel viewModel)
+    public override void Initialize()
     {
 
     }
@@ -49,6 +49,10 @@ public abstract class UIPopupView : UIWidgetView
         _hideSequence.Restart();
         await _hideSequence.AsyncWaitForCompletion();
         _inputService.EnableInput();
+        if (autoDestroy)
+        {
+            Destroy(gameObject);
+        }
     }
 
     protected virtual void CreateShowSequence()

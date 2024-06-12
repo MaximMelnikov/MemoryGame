@@ -8,7 +8,7 @@ public class ShadowView : UIWidgetView
     [SerializeField]
     private CanvasGroup _shadow;
 
-    public override void Initialize(IViewModel viewModel)
+    public override void Initialize()
     {
 
     }

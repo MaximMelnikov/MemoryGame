@@ -7,7 +7,7 @@ namespace Core.StateMachine.StateMachines.States
     public class MenuState : IState
     {
         private const string MenuLevelName = "Menu";
-        private readonly ISceneLoader _sceneLoader;
+        private ISceneLoader _sceneLoader;
 
         public MenuState(ISceneLoader sceneLoader)
         {

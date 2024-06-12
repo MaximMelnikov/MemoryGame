@@ -13,6 +13,8 @@ namespace Core.Installers
             BindFieldSizeController();
             BindGameController();
             BindHudController();
+            BindLooseController();
+            BindWinController();
             BindStates();
         }
 
@@ -51,7 +53,8 @@ namespace Core.Installers
         {
             Container
                 .Bind<GameController>()
-                .AsSingle();
+                .AsSingle()
+                .IfNotBound();
         }
 
         private void BindHudController()
@@ -61,6 +64,26 @@ namespace Core.Installers
 
             Container
                 .Bind<HudViewModel>()
+                .AsTransient();
+        }
+
+        private void BindLooseController()
+        {
+            Container.Bind<LooseView>()
+                .AsSingle();
+
+            Container
+                .Bind<LooseViewModel>()
+                .AsTransient();
+        }
+
+        private void BindWinController()
+        {
+            Container.Bind<WinView>()
+                .AsSingle();
+
+            Container
+                .Bind<WinViewModel>()
                 .AsTransient();
         }
 

@@ -26,7 +26,7 @@ public class WinView : UIPopupView
         _audioService = audioService;
     }
 
-    public override void Initialize(IViewModel viewModel)
+    public override void Initialize()
     {
         Show();
         _playButton.onClick.AddListener(_winController.OnPlayButton);

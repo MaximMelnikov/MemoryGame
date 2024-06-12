@@ -1,8 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class HudView : UIWidgetView
 {
@@ -17,13 +19,21 @@ public class HudView : UIWidgetView
     [SerializeField]
     private Button _pauseButton;
 
-    public override void Initialize(IViewModel viewModel)
+    private IDisposable _timeRemainingSubscription;
+
+    [Inject]
+    public void Construct(
+        HudViewModel hudViewModel)
+    {
+        _hudViewModel = hudViewModel;
+    }
+
+    public override void Initialize()
     {
         Debug.Log("HudView Initialize");
         Show();
-        _hudViewModel = viewModel as HudViewModel;
 
-        _hudViewModel.gameController.Timer.TimeRemaining.SubscribeToText(_timerText).AddTo(this);
+        _timeRemainingSubscription = _hudViewModel.gameController.Timer.TimeRemaining.SubscribeToText(_timerText).AddTo(this);
         _restartButton.onClick.AddListener(OnRestartButtonClick);
         _pauseButton.onClick.AddListener(OnPauseButtonClick);
     }
@@ -45,6 +55,13 @@ public class HudView : UIWidgetView
 
     public override Task Hide(bool autoDestroy = true)
     {
+        
+
         return null;
+    }
+
+    private void OnDestroy()
+    {
+        _timeRemainingSubscription.Dispose();
     }
 }

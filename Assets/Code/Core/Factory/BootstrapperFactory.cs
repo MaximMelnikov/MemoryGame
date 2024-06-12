@@ -5,7 +5,7 @@ namespace Core.Factory
 {
     public class BootstrapperFactory
     {
-        private readonly DiContainer _container;
+        private DiContainer _container;
 
         public BootstrapperFactory(DiContainer container)
         {

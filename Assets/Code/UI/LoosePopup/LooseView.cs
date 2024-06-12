@@ -17,18 +17,20 @@ public class LooseView : UIPopupView
 
     [Inject]
     public void Construct(
+        LooseViewModel looseViewModel,
         IInputService inputService,
         AudioService audioService)
     {
         base.Construct(inputService);
+        _looseViewModel = looseViewModel;
         _audioService = audioService;
         _inputService = inputService;
     }
 
-    public override void Initialize(IViewModel viewModel)
+    public override void Initialize()
     {
         Show();
-        _playButton.onClick.AddListener(_looseViewModel.OnPlayButton);
+        _playButton.onClick.AddListener(OnPlayButton);
     }
 
     public override async Task Show()
@@ -43,5 +45,11 @@ public class LooseView : UIPopupView
         await base.Hide();
         _audioService.PlayClick();
         _inputService.EnableInput();
+    }
+
+    private void OnPlayButton()
+    {
+        _looseViewModel.OnPlayButton();
+        Hide();
     }
 }

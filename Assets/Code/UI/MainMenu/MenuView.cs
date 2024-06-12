@@ -1,6 +1,5 @@
 using Core.Services.Input;
 using DG.Tweening;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;

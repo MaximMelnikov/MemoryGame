@@ -12,8 +12,8 @@ public class FieldCreator : IFieldCreator
     private readonly DiContainer _container;
     private readonly CardTilesDatabase _cardTilesDatabase;
     private readonly FieldSettings _fieldSettings;
-    private readonly FieldSizeController _fieldSizeController;
-    private readonly OptionsService _optionsService;
+    private FieldSizeController _fieldSizeController;
+    private OptionsService _optionsService;
     private Transform _cardsContainer;
     public List<Card> Cards { get; private set; }
 
@@ -131,5 +131,10 @@ public class FieldCreator : IFieldCreator
 
         //one more randomizer
         return cards.OrderBy(x => random.Next()).ToArray();
+    }
+
+    public void Dispose()
+    {
+        Cards.Clear();
     }
 }

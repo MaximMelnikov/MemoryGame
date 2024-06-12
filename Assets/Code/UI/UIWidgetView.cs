@@ -18,7 +18,7 @@ public abstract class UIWidgetView : MonoBehaviour
         _canvas.worldCamera = Camera.main;
     }
 
-    public abstract void Initialize(IViewModel viewModel);
+    public abstract void Initialize();
 
     public abstract Task Show();
 

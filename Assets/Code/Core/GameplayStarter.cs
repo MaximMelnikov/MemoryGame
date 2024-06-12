@@ -36,10 +36,10 @@ namespace Core
         {
             Debug.Log("GameplayStarter_" + _container.GetHashCode());
             var gameplayPreloadState = _container.Resolve<GameplayPreloadState>();
-            _projectStateMachine.RegisterState<GameplayPreloadState>(gameplayPreloadState);
+            _projectStateMachine.RegisterState<GameplayPreloadState>(gameplayPreloadState, true);
 
             var gameplayState = _container.Resolve<GameplayState>();
-            _projectStateMachine.RegisterState<GameplayState>(gameplayState);
+            _projectStateMachine.RegisterState<GameplayState>(gameplayState, true);
 
             _projectStateMachine.Enter<GameplayPreloadState>();
         }

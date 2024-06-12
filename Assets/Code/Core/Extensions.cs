@@ -35,7 +35,6 @@ public static class Extensions
     public static async Task<TView> OpenWindow<TView, TViewModel>(this DiContainer container, string viewAssetKey, string uid = null) where TView : UIWidgetView where TViewModel : IViewModel
     {
         GameObject gameObject = null;
-        var viewModel = container.Resolve<TViewModel>();
         uid = uid ?? viewAssetKey;
         try
         {
@@ -43,12 +42,12 @@ public static class Extensions
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"{viewModel.ToString()} view can't be loaded. ViewAssetKey: {viewAssetKey}");
+            Debug.LogError($"{typeof(TView)} view can't be loaded. ViewAssetKey: {viewAssetKey}");
             throw e;
         }
         var instantiatedGameObject = GameObject.Instantiate(gameObject);
         var uiWidgetView = container.InjectGameObjectForComponent<TView>(instantiatedGameObject);
-        uiWidgetView.Initialize(viewModel);
+        uiWidgetView.Initialize();
 
         return uiWidgetView;
     }

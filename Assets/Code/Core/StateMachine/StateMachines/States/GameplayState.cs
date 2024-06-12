@@ -5,8 +5,8 @@ namespace Core.StateMachine.StateMachines.States
 {
     public class GameplayState : IState
     {
-        private readonly IFieldCreator _fieldCreator;
-        private readonly GameController _gameController;
+        private IFieldCreator _fieldCreator;
+        private GameController _gameController;
 
         public GameplayState(
             IFieldCreator fieldCreator,
@@ -26,6 +26,12 @@ namespace Core.StateMachine.StateMachines.States
         public async UniTask Exit()
         {
             Debug.Log("Exit GameplayState");
+            
+            _fieldCreator.Dispose();
+            _fieldCreator = null;
+            
+            _gameController.Dispose();
+            _gameController = null;
         }
     }
 }
