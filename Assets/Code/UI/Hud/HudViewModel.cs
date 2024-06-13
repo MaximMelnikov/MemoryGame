@@ -1,5 +1,4 @@
 using Core.SceneLoader;
-using System;
 using Zenject;
 
 public class HudViewModel : IViewModel

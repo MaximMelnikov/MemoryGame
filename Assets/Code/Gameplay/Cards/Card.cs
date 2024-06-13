@@ -1,63 +1,26 @@
-using Core.Services.Input;
+﻿using Core.Services.Input;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Lean.Touch;
-using System.Threading.Tasks;
 using UnityEngine;
-using Zenject;
 
-public class Card : MonoBehaviour, IInputInteractable
+public abstract class Card : MonoBehaviour, IInputInteractable
 {
-    private GameController _gameController;
-    private AudioService _audioService;
     [SerializeField]
-    private SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _cardBack;
 
-    private const float _flipTime = .2f;
-    private Sequence _flipSequence;
-    private Sequence _failSequence;
-    private Sprite _facedSprite;
-    private Sprite _backSprite;
+    protected GameController _gameController;
+    protected AudioService _audioService;
 
-    public int Id { get; private set; }
-    public bool IsFaced { get; private set; }
+    protected const float _flipTime = .2f;
+    protected Sequence _flipSequence;
+    protected Sequence _failSequence;
+
+    public int Id { get; protected set; }
+    public bool IsFaced { get; protected set; }
     public bool IsInputEnabled { get; set; }
 
-    [Inject]
-    private void Construct(
-        GameController gameController,
-        AudioService audioService)
-    {
-        _gameController = gameController;
-        _audioService = audioService;
-    }
-
-    public void Init(int id, Sprite facedSprite, Sprite backSprite)
-    {
-        Id = id;
-        _facedSprite = facedSprite;
-        _backSprite = backSprite;
-    }
-
-    private void SetSprite(bool isFaced)
-    {
-        _spriteRenderer.sprite = isFaced ? _facedSprite : _backSprite;
-    }
-
-    public Sequence FlipCard()
-    {
-        IsInputEnabled = false;
-        _flipSequence = DOTween.Sequence();
-        _flipSequence
-            .Append(_spriteRenderer.transform.DORotate(new Vector3(0, 90, 0), _flipTime))
-            .AppendCallback(() => SetSprite(!IsFaced))
-            .Append(_spriteRenderer.transform.DORotate(new Vector3(0, 180, 0), _flipTime))
-            .AppendCallback(() =>
-            {
-                IsFaced = !IsFaced;
-                IsInputEnabled = true;
-            });
-        return _flipSequence;
-    }
+    public abstract void Init(int id);
 
     public void Reset()
     {
@@ -78,16 +41,25 @@ public class Card : MonoBehaviour, IInputInteractable
         OnSelected();
     }
 
-    private async Task OnSelected()
+    protected async UniTask OnSelected()
     {
         _audioService.PlayClick();
         await FlipCard().AsyncWaitForCompletion();
         _gameController.OnCardSelected(this);
     }
 
-    public async Task PairFound()
+    public Sequence FlipCard()
     {
-        _audioService.PlaySuccess();
+        IsInputEnabled = false;
+        _flipSequence = DOTween.Sequence();
+        _flipSequence
+            .Append(_cardBack.transform.DORotate(new Vector3(0, IsFaced ? 0 : 180, 0), _flipTime*2))
+            .AppendCallback(() =>
+            {
+                IsFaced = !IsFaced;
+                IsInputEnabled = true;
+            });
+        return _flipSequence;
     }
 
     public Sequence FailPair()
@@ -95,9 +67,13 @@ public class Card : MonoBehaviour, IInputInteractable
         _audioService.PlayFail();
         _failSequence = DOTween.Sequence();
         _failSequence
-            .Append(_spriteRenderer.DOColor(Color.red, 0.1f).SetLoops(2, LoopType.Yoyo))
+            .Append(_cardBack.DOColor(Color.red, 0.1f).SetLoops(2, LoopType.Yoyo))
             .AppendInterval(1)
             .Append(FlipCard());
         return _failSequence;
+    }
+    public void PairFound()
+    {
+        _audioService.PlaySuccess();
     }
 }

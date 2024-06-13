@@ -17,6 +17,6 @@ MonoBehaviour:
   cardWidth: 54
   cardHeight: 90
   spacing: 10
-  cardPrefab: {fileID: 5628884182679161827, guid: 6c45ebafe5090fc4ea9688bffea2141b, type: 3}
+  cardPrefab: {fileID: 1267266616322459286, guid: 82f1b662fabce2148bd64dc35a44ca9a, type: 3}
   showCardsTime: 5
-  timeToFail: 5
+  timeToFail: 60

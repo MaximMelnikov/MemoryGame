@@ -75,7 +75,7 @@ public class FieldCreator : IFieldCreator
         for (int i = 0; i < cardsIds.Length; i++)
         {
             var cardId = cardsIds[i];
-            Cards[i].Init(cardId, _cardTilesDatabase.GetSprite(cardId), _cardTilesDatabase.GetSprite(0));
+            Cards[i].Init(cardId);
         }
     }
 
